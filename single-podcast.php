@@ -1,57 +1,16 @@
 <?php
 
-locate_template('includes/wp_booster/td_single_template_vars.php', true);
+    locate_template('includes/wp_booster/td_single_template_vars.php', true);
 
-get_header();
+    get_header();
 
-global $loop_module_id, $loop_sidebar_position, $post, $td_sidebar_position;
+    global $loop_module_id, $loop_sidebar_position, $post, $td_sidebar_position;
 
-$td_mod_single = new td_module_single($post);
-$td_block_11 = new td_block_11();
-$td_block_14 = new td_block_14();
-$td_block_8 = new td_block_8();
-$promoted_id = get_term_by('slug', 'promoted', 'category');
-$related_promoted_posts = $td_mod_single->related_promoted_posts();
+    $td_mod_single = new td_module_single($post);
+    $td_block_11 = new td_block_11();
+    $td_block_14 = new td_block_14();
+    $td_block_8 = new td_block_8();
 
-// =========
-// begin theft
-global $post;
-// If you declare $post a global var and use this "theft" code, then you have to change post type from 'post' to '<CUST POST TYPE>'
-// or the template won't render
-if ($post->post_type != 'podcast') {
-    return '';
-}
-if (td_util::get_option('tds_similar_articles') == 'hide') {
-    return '';
-}
-if (td_util::get_option('tds_similar_articles_type') == 'by_tag') {
-    $td_related_ajax_filter_type = 'cur_post_same_tags';
-} else {
-    $td_related_ajax_filter_type = 'cur_post_same_categories';
-}
-$tds_similar_articles_rows = td_util::get_option('tds_similar_articles_rows');
-if (empty($tds_similar_articles_rows)) {
-    $tds_similar_articles_rows = 1;
-}
-if (td_global::$cur_single_template_sidebar_pos == 'no_sidebar' or $force_sidebar_position === 'no_sidebar') {
-    $td_related_limit = 5 * $tds_similar_articles_rows;
-    $td_related_class = 'td-related-full-width';
-    $td_column_number = 5;
-} else {
-    $td_related_limit = 3 * $tds_similar_articles_rows;
-    $td_related_class = '';
-    $td_column_number = 3;
-}
-$td_related_limit = 3;
-$td_column_number = 3;
-$td_block_args = array (
-    'limit' => $td_related_limit,
-    'ajax_pagination' => 'next_prev',
-    'class' => $td_related_class,
-    'td_column_number' => $td_column_number
-);
-// end theft
-// =========
 ?>
 
 <!-- The below div renders the post from a default template (loop) with one of three sidebar configurations (switch) -->
@@ -59,86 +18,109 @@ $td_block_args = array (
     <div class="td-container td-post-template-default <?php echo $td_sidebar_position; ?>">
         <div class="td-crumb-container"><?php echo td_page_generator::get_single_breadcrumbs($td_mod_single->title); ?></div>
 
+        <!-- The default template -->
         <div class="td-pb-row">
-            <?php
-
-            // The default template
-            switch ($loop_sidebar_position) {
-                default: //sidebar right
-					?>
-                        <div class="td-pb-span8 td-main-content" role="main">
-                            <div class="td-ss-main-content">
-                                <?php
-                                locate_template('loop-single.php', true);
-                                comments_template('', true);
-                                ?>
-                            </div>
-                        </div>
-                        <div class="td-pb-span4 td-main-sidebar" role="complementary">
-                            <div class="td-ss-main-sidebar">
-                                <?php get_sidebar(); ?>
-                            </div>
-                        </div>
+            <div class="td-pb-span8 td-main-content" role="main">
+                <div class="td-ss-main-content">
                     <?php
-                    break;
-
-                case 'sidebar_left':
+                        // Couldn't we insert a modified loop template here to have further control over the cust post type body?
+                        // Update: doesn't quite work. not sure.
+                        locate_template('loop-single.php', true);
+                        comments_template('', false);
                     ?>
-                        <div class="td-pb-span8 td-main-content <?php echo $td_sidebar_position; ?>-content" role="main">
-                            <div class="td-ss-main-content">
-                                <?php
-                                    locate_template('loop-single.php', true);
-                                    comments_template('', true);
-                                ?>
+                </div>
+            </div>
+            <div class="td-pb-span4 td-main-sidebar" role="complementary">
+                <div class="td-ss-main-sidebar">
+            <!-- BEGIN Podcast Subscribe Custom Static Sidebar -->
+                    <div>
+                        <div class="podcastsubscribe">
+                            <div class="podcastheaderholder">
+                                <h1 class="podcastheader podcast">SUBSCRIBE TO OUR PODCAST</h1>
+                            </div>
+                            <div class="parentgreybox">
+                                <a href="https://itunes.apple.com/us/podcast/iot-for-all/id1450973480" target="_blank" class="podcastlink w-inline-block">
+                                    <div class="greybackgrounddiv">
+                                    <div class="podcastimagediv itunes"></div>
+                                    <div class="podcastplatformtext">Apple Podcasts</div>
+                                    </div>
+                                </a>
+                                <a href="https://soundcloud.com/iotforall" target="_blank" class="podcastlink w-inline-block">
+                                    <div class="greybackgrounddiv">
+                                    <div class="podcastimagediv soundcloud2"></div>
+                                    <div class="podcastplatformtext">SoundCloud</div>
+                                    </div>
+                                </a>
+                                <a href="https://www.google.com/podcasts?feed=aHR0cHM6Ly9yc3Muc2ltcGxlY2FzdC5jb20vcG9kY2FzdHMvNzY2MS9yc3M" target="_blank" class="podcastlink w-inline-block">
+                                    <div class="greybackgrounddiv">
+                                    <div class="podcastimagediv"></div>
+                                    <div class="podcastplatformtext">Google Podcasts</div>
+                                    </div>
+                                </a>
+                                <a href="https://www.stitcher.com/s?fid=364223&amp;refid=stpr" target="_blank" class="podcastlink w-inline-block">
+                                    <div class="greybackgrounddiv">
+                                    <div class="podcastimagediv stitcher"></div>
+                                    <div class="podcastplatformtext">Stitcher</div>
+                                    </div>
+                                </a>
+                                <a href="https://open.spotify.com/show/0jYLPvfCrBZVCwM5a7aldP?si=wfRmCM8oSLW2ffeAx-LTuw" target="_blank" class="podcastlink w-inline-block">
+                                    <div class="greybackgrounddiv">
+                                    <div class="podcastimagediv spotify"></div>
+                                    <div class="podcastplatformtext">Spotify</div>
+                                    </div>
+                                </a>
+                                <a href="https://iotforallpodcast.simplecast.fm/" target="_blank" class="podcastlink w-inline-block">
+                                    <div class="greybackgrounddiv">
+                                    <div class="podcastimagediv simplecast"></div>
+                                    <div class="podcastplatformtext">Simplecast</div>
+                                    </div>
+                                </a>
+                                <a href="http://tun.in/pjiuK" target="_blank" class="podcastlink w-inline-block">
+                                    <div class="greybackgrounddiv">
+                                    <div class="podcastimagediv tunein"></div>
+                                    <div class="podcastplatformtext">Tunein</div>
+                                    </div>
+                                </a>
+                                <a href="https://overcast.fm/itunes1450973480/iot-for-all-podcast" target="_blank" class="podcastlink w-inline-block">
+                                    <div class="greybackgrounddiv">
+                                    <div class="podcastimagediv overcast"></div>
+                                    <div class="podcastplatformtext">Overcast</div>
+                                    </div>
+                                </a>
                             </div>
                         </div>
-		                <div class="td-pb-span4 td-main-sidebar" role="complementary">
-			                <div class="td-ss-main-sidebar">
-                                <?php 
-                                    get_sidebar(); 
-                                ?>
-			                </div>
-		                </div>
-                    <?php
-                    break;
+                    </div>
+                </div>
+        <!-- END Podcast Subscribe Custom Static Sidebar -->
+            </div>
+        </div> 
+        <!-- /.td-pb-row -->
 
-                case 'no_sidebar':
-                    td_global::$load_featured_img_from_template = 'td_1068x0';
-                    ?>
-                        <div class="td-pb-span12 td-main-content" role="main">
-                            <div class="td-ss-main-content">
-                                <?php
-                                locate_template('loop-single.php', true);
-                                comments_template('', true);
-                                ?>
-
-                            </div>
-                        </div>
-                    <?php
-                    break;
-            }
-            ?>
-        </div> <!-- /.td-pb-row -->
-
-        <!-- These two divs below render the bottom box that contains all podcasts. -->
         <div class="wpb_wrapper td-block-title-wrap td_block_14 td_block_inner">
+            <!-- This is a custom title "More Podcasts" for the filter/block immediately below. -->
+            <h4 class="td-block-title">
+                <span class="td-pulldown-size" style="font-weight: 550; "><span style="border-bottom: 2px solid #2ec9b9;">More</span> Podcasts</span>
+            </h4>
+            <!-- The td-column-3 div below renders the row of related podcasts immediately below the body of the post/podcast  -->
             <div class="td-column-3 td-pb-span4 width100p">
-                <?php echo $td_block_14->render(array('limit' => 3,'category_ids' => 45, -1 * $promoted_id->term_id, 'post_ids' => $exclude));?>
+                <?php echo $td_block_14->render(array('limit' => 3,'category_ids' => 45));?>
             </div>
         </div>
         <div class="vc_row wpb_row td-pb-row td-sidebar-guide">
             <div class="wpb_column vc_column_container td-pb-span8">
-                <?php echo $td_block_11->render(array('ajax_pagination' => 'load_more', 'offset' => 3, 'category_ids' => 45, -1 * $promoted_id->term_id, 'post_ids' => $exclude));?>
+                <?php echo $td_block_11->render(array('ajax_pagination' => 'load_more', 'offset' => 3, 'category_ids' => 45));?>
             </div>
+             <!-- This is a custom title "Trending" for the filter/block immediately below. -->
+             <h4 class="td-block-title">
+                <span class="td-pulldown-size" style="font-weight: 550; "><span style="border-bottom: 2px solid #2ec9b9;">Trend</span>ing</span>
+            </h4>
             <div class="wpb_column vc_column_container td-pb-span4">
-                <?php echo $td_block_8->render(array('limit' => 4, 'category_ids' => 45, -1 * $promoted_id->term_id, 'sort' => 'random_posts'));?>
+                <?php echo $td_block_8->render(array('limit' => 4, 'category_ids' => 45, 'sort' => 'random_posts'));?>
             </div>
         </div>
-
     </div> <!-- /.td-container -->
 </div> <!-- /.td-main-content-wrap -->
 
 <?php
-
-get_footer();
+    get_footer();
 ?>

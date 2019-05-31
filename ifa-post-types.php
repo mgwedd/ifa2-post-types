@@ -10,12 +10,14 @@ function ifa_post_types() {
 
     //  === PODCAST === 
     register_post_type('podcast', array(
-        'supports' => array('title', 'editor', 'excerpt'),
+        'supports' => array('title', 'editor', 'author', 'excerpt', 'thumbnail', 'revisions'),
         'rewrite' => array(
             'slug' => 'podcast'
         ),
         'has_archive' => true,
         'public' => true, 
+        'show_in_menu' => true,
+        'show_in_rest' => true,
         'labels' => array(
             'name' => 'Podcast',
             'add_new_item' => 'Add Episode',
@@ -28,12 +30,13 @@ function ifa_post_types() {
 
     //  === PRESS RELEASE === 
     register_post_type('press_release', array(
-        'supports' => array('title', 'editor', 'excerpt'),
+        'supports' => array('title', 'editor', 'author', 'excerpt', 'thumbnail', 'revisions'),
         'rewrite' => array(
             'slug' => 'press-releases'
         ),
         'has_archive' => true,
         'public' => true, 
+        'show_in_rest' => true,
         'labels' => array(
             'name' => 'Press Release',
             'add_new_item' => 'Add Press Release',
@@ -41,17 +44,18 @@ function ifa_post_types() {
             'all_items' => 'All Press Releases',
             'singular_name' => 'Press Release'
         ), 
-        'menu_icon' => 'dashicons-text-page'
+        'menu_icon' => 'dashicons-media-document'
      ));
 
     //  === WHITE PAPER === 
     register_post_type('white_paper', array(
-        'supports' => array('title', 'editor', 'excerpt'),
+        'supports' => array('title', 'editor', 'author', 'excerpt', 'thumbnail', 'revisions'),
         'rewrite' => array(
             'slug' => 'white-papers'
         ),
         'has_archive' => true,
         'public' => true, 
+        'show_in_rest' => true,
         'labels' => array(
             'name' => 'White Paper',
             'add_new_item' => 'Add White Paper',
@@ -64,20 +68,21 @@ function ifa_post_types() {
 
     //  === SOLUTION === 
     register_post_type('solution', array(
-        'supports' => array('title', 'editor', 'excerpt'),
+        'supports' => array('title', 'editor', 'author', 'excerpt', 'thumbnail', 'revisions'),
         'rewrite' => array(
-            'slug' => 'podcasts'
+            'slug' => 'solutions'
         ),
         'has_archive' => true,
         'public' => true, 
+        'show_in_rest' => true,
         'labels' => array(
-            'name' => 'Podcast',
+            'name' => 'Solution',
             'add_new_item' => 'Add Solution',
             'edit_item' => 'Edit Solution',
             'all_items' => 'All Solutions',
             'singular_name' => 'Solution'
         ), 
-        'menu_icon' => 'dashicons-tide'
+        'menu_icon' => 'dashicons-admin-network'
      ));
 }
 
