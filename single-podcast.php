@@ -208,10 +208,6 @@ Leaving box shadow here to avoid another jump being visible. -->
     margin: 0 !important;
 }
 
-.entry-thumb {
-    height: 400px;
-}
-
 .td-module-meta-info {
     position: relative ;
 }
@@ -220,6 +216,10 @@ Leaving box shadow here to avoid another jump being visible. -->
 }
 .wp-caption-text {
     padding-left: 5px; 
+}
+
+.podcast-background-image .entry-thumb {
+    height: 400px;
 }
 
 .podcast-title-container {
