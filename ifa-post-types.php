@@ -1,5 +1,8 @@
 <?php 
-
+    // For AMP to work, you need to manually enable the cust post types in the amp plugin: 
+    // https://ampforwp.com/tutorials/article/enable-custom-post-type-support-amp/
+    // Note: WP Structured Data doesn't show up in cust post types. Tried this: https://wordpress.org/support/topic/plugin-not-working-for-custom-post-type/
+    // doesn't quite work yet.
 function ifa_post_types() {
 
     // Each register_post_type(...args) function call within this larger ifa_post_types() function 
@@ -9,15 +12,17 @@ function ifa_post_types() {
     // ~ Michael Wedd, May 30th 2019.
 
     //  === PODCAST === 
+    // replace archive with just a filtered page instead...?
+    // categories not display on front end yet.
     register_post_type('podcast', array(
-        'supports' => array('title', 'editor', 'author', 'excerpt', 'thumbnail', 'revisions'),
+        'supports' => array('title', 'editor', 'author', 'thumbnail', 'revisions'),
         'rewrite' => array(
             'slug' => 'podcast'
         ),
-        'has_archive' => true,
         'public' => true, 
         'show_in_menu' => true,
         'show_in_rest' => true,
+        'taxonomies'  => array( 'category', 'tag' ),
         'labels' => array(
             'name' => 'Podcast',
             'add_new_item' => 'Add Episode',

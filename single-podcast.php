@@ -23,42 +23,39 @@
         <!-- The below div renders the post from a default template (loop) with one of three sidebar configurations (switch) -->
         <div class="td-main-content-wrap">
             <!-- Zaz's podcast title block here -->
-            <div class="podcast-title-background-image" style="width: 100%; opacity: 0.2; position: absolute; top: -370px;">
+            <div class="podcast-title-background" style="width: 100%; position: relative;">
+                
+                <div>
                 <?php echo $td_mod_single->get_image(td_global::$load_featured_img_from_template); ?>
-            </div>
-                <div class="td-post-header" style="padding-left: 75px; padding-right: 75px; padding-top: 25px;">
+                <div class="td-post-header">
                     <?php echo $td_mod_single->get_category(); ?>
                     <!-- POST TITLE. In this <header> below, you can insert Zaz's podcast template block, 
                     in a conditional PHP section for that post type -->
                     <header class="td-post-title">
-                        <div class="podcast-title-section-container" style="display: flex; justify-content: space-between; padding-right: 100px; padding-left: 45px;">
+                        <div class="podcast-title-section-container" style="display: flex; justify-content: space-between; align-items: center;">
                             <!-- flex the title / image container. give it a background. make it look like zaz's thing -->
-                            <div class="podcast-title-container" style="max-width: 40%;">
+                            <div class="podcast-title-container">
                                 <?php echo $td_mod_single->get_title();?> 
                                 <!-- <hr style="width: 150px;"> FIX-->
                             </div>
                             <!-- The featured image is stacked on top of the sidebar simply so that it has the correct alignment automatically, 
                             given the design from Zaz. Regardless, it's considered semantically part of the "podcast-title-section-container" area-->
-                            <div class="podcast-featured-image-container" style="max-width: 400px; height: auto; box-shadow: 2px 2px 20px 0 rgba(0, 0, 0, 0.2);">
+                            <div class="podcast-featured-image-container">
                                 <!-- TODO: Remove the extra margin at the bottom that's being added in figacption, td-featured-img img, etc, in the style.css later -->
                                 <?php echo $td_mod_single->get_image(td_global::$load_featured_img_from_template); ?>
                             </div>
                         </div>
-                        <?php 
-                            if (!empty($td_mod_single->td_post_theme_settings['td_subtitle'])) { ?>
-                                <p class="td-post-sub-title"><?php echo $td_mod_single->td_post_theme_settings['td_subtitle'];?></p>
-                        <?php 
-                            } 
-                        ?>
                         <div class="td-module-meta-info" style="display: flex; padding-left: 45px;">
                             <?php echo $td_mod_single->get_date(false);?>
                             <div style="margin-left: 20px;">
                                 <?php echo $td_mod_single->get_views();?>
-                            </div>
                         </div>
+                    </div>
                     </header>
                 </div>
             </div>
+            </div>
+           
             <div class="td-container td-post-template-default <?php echo $td_sidebar_position; ?>">
                 <div class="td-crumb-container"><?php echo td_page_generator::get_single_breadcrumbs($td_mod_single->title); ?></div>
 
@@ -195,7 +192,7 @@
 <!-- TODO: Move to style.css -->
 <style>
 /* This hides James' like fire button. Is there a better way to do this? Can we actually exclude it from this post type deeper in the theme? */
-.wp_ulike_general_class, .sidebar-share-text, .wp-caption-text {
+.wp_ulike_general_class, .sidebar-share-text, .wp-caption-text, .td-category {
     display: none;
 }
 /* wp caption text is loading and then being removed... not ideal for load sequence to use this style method */
@@ -205,16 +202,42 @@
     margin: 0 !important;
 }
 
+.entry-thumb {
+    height: 400px;
+}
+
+.podcast-title-background {
+   border-radius: 0;
+}
+
+.td-module-meta-info {
+    position: relative ;
+}
+.td-post-image {
+    opacity: 0.2;
+}
 .wp-caption-text {
     padding-left: 5px; 
 }
 
+.podcast-title-container {
+    max-width: 40%
+}
+
+.td-post-header {
+    margin: 0 auto;
+    padding-left: 75px; 
+    padding-right: 75px; 
+    position: absolute; 
+    bottom: 0;
+}
 .entry-title {
     font-family: 'Open Sans', sans-serif; 
     color: #000; 
     font-size: 30px; 
     line-height: 30px; 
     font-weight: 800;
+    top: 50%;
 }
 
 /* PROBLEM: This has a load delay, so the image loads in the center of the page on first paint, 
@@ -224,15 +247,43 @@ and is then moved in an ugly way by these inline styles... how to get it earlier
 /* Leaving box shadow here to avoid another jump being visible. */
 
 .podcast-featured-image-container {
-    box-shadow: 0 16px 32px 0 rgba(0,0,0,0.2);
-    border-radius: 5px;
+    height: auto; 
 }
 
-.entry-thumb, .td-post-featured-image {
+
+.podcast-featured-image-container img {
     border-radius: 5px;
+    box-shadow: 2px 2px 20px 0 rgba(0, 0, 0, 0.2);
+    height: 300px;
+    width: auto;
 } 
-/* now background has radius!  */
-.podcast-title-background-image {
-   border-radius: 0;
+
+/* for when new image is ready */
+/* .podcast-title-background img {
+    opacity: 0.2;
+} */
+
+@media only screen and (max-width: 1025px) {
+    .podcast-title-section-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .podcast-title-container {
+        max-width: 100%;
+        padding-left: 0;
+        padding-right: 0;
+        max-width: 100%;
+    }
+
+    .podcast-featured-image-container {
+        display: none;
+    }
+
+    .td-post-header {
+        top: 100px;
+        height: 100%;
+        bottom: initial;
+    }
 }
 </style>
