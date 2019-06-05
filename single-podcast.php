@@ -25,8 +25,9 @@
             <!-- Zaz's podcast title block here -->
             <div class="podcast-title-background" style="width: 100%; position: relative;">
                 
-                <div>
-                <?php echo $td_mod_single->get_image(td_global::$load_featured_img_from_template); ?>
+                <div class="podcast-background-image" style="opacity: 0.2; height: 400px; width: auto;">
+                    <?php echo $td_mod_single->get_image(td_global::$load_featured_img_from_template); ?>
+                </div>
                 <div class="td-post-header">
                     <?php echo $td_mod_single->get_category(); ?>
                     <!-- POST TITLE. In this <header> below, you can insert Zaz's podcast template block, 
@@ -190,6 +191,11 @@
 
 
 <!-- TODO: Move to style.css -->
+<!-- PROBLEM: This has a load delay, so the image loads in the center of the page on first paint, 
+and is then moved in an ugly way by these inline styles... how to get it earlier in the load order? -->
+<!-- TEMP SOLUTION: If you declare the sizing in inline style, then it loads early and doesn't jump on paint
+Leaving box shadow here to avoid another jump being visible. -->
+
 <style>
 /* This hides James' like fire button. Is there a better way to do this? Can we actually exclude it from this post type deeper in the theme? */
 .wp_ulike_general_class, .sidebar-share-text, .wp-caption-text, .td-category {
@@ -204,10 +210,6 @@
 
 .entry-thumb {
     height: 400px;
-}
-
-.podcast-title-background {
-   border-radius: 0;
 }
 
 .td-module-meta-info {
@@ -226,6 +228,7 @@
 
 .td-post-header {
     margin: 0 auto;
+    margin-left: 40px;
     padding-left: 75px; 
     padding-right: 75px; 
     position: absolute; 
@@ -239,13 +242,6 @@
     font-weight: 800;
     top: 50%;
 }
-
-/* PROBLEM: This has a load delay, so the image loads in the center of the page on first paint, 
-and is then moved in an ugly way by these inline styles... how to get it earlier in the load order? */
-
-/* TEMP SOLUTION: If you declare the sizing in inline style, then it loads early and doesn't jump on paint */
-/* Leaving box shadow here to avoid another jump being visible. */
-
 .podcast-featured-image-container {
     height: auto; 
 }
@@ -258,6 +254,10 @@ and is then moved in an ugly way by these inline styles... how to get it earlier
     width: auto;
 } 
 
+.td-crumb-container {
+    display: none;
+}
+
 /* for when new image is ready */
 /* .podcast-title-background img {
     opacity: 0.2;
@@ -265,7 +265,7 @@ and is then moved in an ugly way by these inline styles... how to get it earlier
 
 @media only screen and (max-width: 1025px) {
     .podcast-title-section-container {
-        flex-direction: column;
+        flex-direction: column-reverse;
         align-items: center;
     }
 
@@ -276,14 +276,30 @@ and is then moved in an ugly way by these inline styles... how to get it earlier
         max-width: 100%;
     }
 
-    .podcast-featured-image-container {
-        display: none;
+    .entry-title {
+        font-size: 16px;
     }
 
     .td-post-header {
-        top: 100px;
+        top: 10px;
         height: 100%;
         bottom: initial;
     }
+
+    .podcast-featured-image-container img {
+        height: 250px;
+    }
+
+    .td-module-meta-info {
+        padding-top: 5px;
+        justify-content: center;
+    }
 }
+/* fix */
+/* 
+@media only screen and (max-width: 650px) {
+    .td-module-meta-info {
+        display: none;
+    }
+} */
 </style>
