@@ -1,3 +1,17 @@
+<!-- 
+* What: IFA Podcast Custom Post Type Template
+* When: June 2019
+* Why: Because previously we were using a virtualized template based merely on a blog post. 
+* Who (author): Michael Wedd
+* Notes: This post type is registered in the must-use plugin "ifa-post-types.php." 
+* This template (a hack) is completely dependant on the Newspaper theme. 
+* I've made efforts to reduce this templates dependency on other theme files in order to reduce complexity,
+* by pulling the code from previously referenced files into this file. 
+* Some styles are declared in-line due to load sequence problems on first paint (re-renders when styles come in late). 
+* I chose a good first paint was over pure speed to a paint. All other styles (most styles) are in style.css, 
+* starting around line 2100 (as of writing this). Search "Podcast Template". 
+* Updates to the Newspaper theme could break this template. TBD.
+-->
 <?php
     locate_template('includes/wp_booster/td_single_template_vars.php', true);
     get_header();
@@ -20,29 +34,23 @@
         global $loop_sidebar_position;
         echo $td_mod_single->get_social_sharing_side();
 ?>
-        <!-- The below div renders the post from a default template (loop) with one of three sidebar configurations (switch) -->
         <div class="td-main-content-wrap">
             <!-- Zaz's podcast title block here -->
             <div class="podcast-title-background" style="width: 100%; position: relative;">
-                
-                <div class="podcast-background-image" style="opacity: 0.2; height: 400px; width: auto;">
-                    <?php echo $td_mod_single->get_image(td_global::$load_featured_img_from_template); ?>
+            <!-- https://staging-iotforall.kinsta.cloud/wp-content/uploads/2019/01/IFA-podcast-banner-v3.png -->
+                <div class="podcast-background-image" style="opacity: 0.2; height: 400px; width: auto; background-image: -webkit-gradient(linear, left top, left bottom, from(hsla(0, 0%, 100%, 0.97)), to(hsla(0, 0%, 100%, 0.81))), url('https://staging-iotforall.kinsta.cloud/wp-content/uploads/2019/05/IoT-Founders_-Dan-Harper_028.png');
+  background-image: linear-gradient(180deg, hsla(0, 0%, 100%, 0.97), hsla(0, 0%, 100%, 0.81)), url('https://staging-iotforall.kinsta.cloud/wp-content/uploads/2019/05/IoT-Founders_-Dan-Harper_028.png'); background-size: cover;
+  background-repeat: no-repeat;">
                 </div>
                 <div class="td-post-header">
                     <?php echo $td_mod_single->get_category(); ?>
-                    <!-- POST TITLE. In this <header> below, you can insert Zaz's podcast template block, 
-                    in a conditional PHP section for that post type -->
                     <header class="td-post-title">
                         <div class="podcast-title-section-container" style="display: flex; justify-content: space-between; align-items: center;">
-                            <!-- flex the title / image container. give it a background. make it look like zaz's thing -->
                             <div class="podcast-title-container">
                                 <?php echo $td_mod_single->get_title();?> 
                                 <!-- <hr style="width: 150px;"> FIX-->
                             </div>
-                            <!-- The featured image is stacked on top of the sidebar simply so that it has the correct alignment automatically, 
-                            given the design from Zaz. Regardless, it's considered semantically part of the "podcast-title-section-container" area-->
                             <div class="podcast-featured-image-container">
-                                <!-- TODO: Remove the extra margin at the bottom that's being added in figacption, td-featured-img img, etc, in the style.css later -->
                                 <?php echo $td_mod_single->get_image(td_global::$load_featured_img_from_template); ?>
                             </div>
                         </div>
@@ -158,13 +166,11 @@
                         </div>
                 <!-- END Podcast Subscribe Custom Static Sidebar -->
                     </div>
-                </div> 
-                <!-- /.td-pb-row -->
-
+                </div> <!-- /.td-pb-row -->
                 <div class="wpb_wrapper td-block-title-wrap td_block_14 td_block_inner">
                     <!-- This is a custom title "More Podcasts" for the filter/block immediately below. -->
                     <h4 class="td-block-title">
-                        <span class="td-pulldown-size" style="font-weight: 550; "><span style="border-bottom: 2px solid #2ec9b9;">More</span> Podcasts</span>
+                        <span class="td-pulldown-size more-podcasts" style="font-weight: 550; "><span style="border-bottom: 2px solid #2ec9b9;">More</span> Podcasts</span>
                     </h4>
                     <!-- The td-column-3 div below renders the row of related podcasts immediately below the body of the post/podcast  -->
                     <div class="td-column-3 td-pb-span4 width100p">
@@ -188,118 +194,3 @@
 <?php
     get_footer();
 ?>
-
-
-<!-- TODO: Move to style.css -->
-<!-- PROBLEM: This has a load delay, so the image loads in the center of the page on first paint, 
-and is then moved in an ugly way by these inline styles... how to get it earlier in the load order? -->
-<!-- TEMP SOLUTION: If you declare the sizing in inline style, then it loads early and doesn't jump on paint
-Leaving box shadow here to avoid another jump being visible. -->
-
-<style>
-/* This hides James' like fire button. Is there a better way to do this? Can we actually exclude it from this post type deeper in the theme? */
-.wp_ulike_general_class, .sidebar-share-text, .wp-caption-text, .td-category {
-    display: none;
-}
-/* wp caption text is loading and then being removed... not ideal for load sequence to use this style method */
-
-.entry-thumb, .wp-caption-text {
-    /* can you just stop this from applying in the first place in style.css? */
-    margin: 0 !important;
-}
-
-.td-module-meta-info {
-    position: relative ;
-}
-.td-post-image {
-    opacity: 0.2;
-}
-.wp-caption-text {
-    padding-left: 5px; 
-}
-
-.podcast-background-image .entry-thumb {
-    height: 400px;
-}
-
-.podcast-title-container {
-    max-width: 40%
-}
-
-.td-post-header {
-    margin: 0 auto;
-    margin-left: 40px;
-    padding-left: 75px; 
-    padding-right: 75px; 
-    position: absolute; 
-    bottom: 0;
-}
-.entry-title {
-    font-family: 'Open Sans', sans-serif; 
-    color: #000; 
-    font-size: 30px; 
-    line-height: 30px; 
-    font-weight: 800;
-    top: 50%;
-}
-.podcast-featured-image-container {
-    height: auto; 
-}
-
-
-.podcast-featured-image-container img {
-    border-radius: 5px;
-    box-shadow: 2px 2px 20px 0 rgba(0, 0, 0, 0.2);
-    height: 300px;
-    width: auto;
-} 
-
-.td-crumb-container {
-    display: none;
-}
-
-/* for when new image is ready */
-/* .podcast-title-background img {
-    opacity: 0.2;
-} */
-
-@media only screen and (max-width: 1025px) {
-    .podcast-title-section-container {
-        flex-direction: column-reverse;
-        align-items: center;
-    }
-
-    .podcast-title-container {
-        max-width: 100%;
-        padding-left: 0;
-        padding-right: 0;
-        max-width: 100%;
-    }
-
-    .entry-title {
-        font-size: 16px;
-    }
-
-    .td-post-header {
-        top: 10px;
-        height: 100%;
-        bottom: initial;
-    }
-
-    .podcast-featured-image-container img {
-        height: 250px;
-    }
-
-    .td-module-meta-info {
-        padding-top: 5px;
-        justify-content: center;
-    }
-}
-/* fix */
-/* 
-@media only screen and (max-width: 650px) {
-    .td-module-meta-info {
-        display: none;
-    }
-} */
-</style>
