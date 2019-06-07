@@ -1,18 +1,18 @@
-<!-- 
-* What: IFA Podcast Custom Post Type Template
-* When: June 2019
-* Why: Because previously we were using a virtualized template based merely on a blog post. 
-* Who (author): Michael Wedd
-* Notes: This post type is registered in the must-use plugin "ifa-post-types.php." 
+<?php
+/**
+* WHAT: IFA Podcast CTP Template
+* WHEN: June 2019
+* WHY: Because previously we were using a virtualized template based merely on a blog post. 
+* WHO (author): Michael Wedd
+* NOTES: This post type is registered in the must-use plugin "IFA Custom Post Types," located at: ../mu-plugins/ifa-post-types.php
 * This template (a hack) is completely dependant on the Newspaper theme. 
 * I've made efforts to reduce this templates dependency on other theme files in order to reduce complexity,
 * by pulling the code from previously referenced files into this file. 
-* Some styles are declared in-line due to load sequence problems on first paint (re-renders when styles come in late). 
+* Some styles are declared in-line due to load sequence problems on first paint (ie re-renders when styles come in late). 
 * I chose a good first paint was over pure speed to a paint. All other styles (most styles) are in style.css, 
-* starting around line 2100 (as of writing this). Search "Podcast Template". 
-* Updates to the Newspaper theme could break this template. TBD.
--->
-<?php
+* starting around line 2100 (as of writing this). Search "PODCAST TEMPLATE". 
+* Updates to the Newspaper theme could break this template. Fun right? TBD!
+*/
     locate_template('includes/wp_booster/td_single_template_vars.php', true);
     get_header();
 
@@ -37,18 +37,20 @@
         <div class="td-main-content-wrap">
             <!-- Zaz's podcast title block here -->
             <div class="podcast-title-background" style="width: 100%; position: relative;">
-            <!-- https://staging-iotforall.kinsta.cloud/wp-content/uploads/2019/01/IFA-podcast-banner-v3.png -->
-                <div class="podcast-background-image" style="opacity: 0.2; height: 400px; width: auto; background-image: -webkit-gradient(linear, left top, left bottom, from(hsla(0, 0%, 100%, 0.97)), to(hsla(0, 0%, 100%, 0.81))), url('https://staging-iotforall.kinsta.cloud/wp-content/uploads/2019/05/IoT-Founders_-Dan-Harper_028.png');
-  background-image: linear-gradient(180deg, hsla(0, 0%, 100%, 0.97), hsla(0, 0%, 100%, 0.81)), url('https://staging-iotforall.kinsta.cloud/wp-content/uploads/2019/05/IoT-Founders_-Dan-Harper_028.png'); background-size: cover;
-  background-repeat: no-repeat;">
+                <div class="podcast-background-image" 
+                    style="
+                        height: 400px; 
+                        width: auto; 
+                        background-image: url('https://staging-iotforall.kinsta.cloud/wp-content/uploads/2019/06/IFA-Podcast_Background_Yellow-3.png');
+                        background-size: cover;
+                        background-repeat: no-repeat;">
                 </div>
-                <div class="td-post-header">
+                <div class="td-post-header" style="margin-right: 55px !important;">
                     <?php echo $td_mod_single->get_category(); ?>
                     <header class="td-post-title">
                         <div class="podcast-title-section-container" style="display: flex; justify-content: space-between; align-items: center;">
                             <div class="podcast-title-container">
                                 <?php echo $td_mod_single->get_title();?> 
-                                <!-- <hr style="width: 150px;"> FIX-->
                             </div>
                             <div class="podcast-featured-image-container">
                                 <?php echo $td_mod_single->get_image(td_global::$load_featured_img_from_template); ?>
@@ -67,40 +69,32 @@
            
             <div class="td-container td-post-template-default <?php echo $td_sidebar_position; ?>">
                 <div class="td-crumb-container"><?php echo td_page_generator::get_single_breadcrumbs($td_mod_single->title); ?></div>
-
-                <!-- BEGIN MAIN PODCAST TEMPLATE -->
-                <div class="td-pb-row">
-                    <div class="td-pb-span8 td-main-content" role="main">
-                        <div class="td-ss-main-content">
-
+                    <!-- BEGIN MAIN PODCAST TEMPLATE -->
+                    <div class="td-pb-row">
+                        <div class="td-pb-span8 td-main-content" role="main">
+                            <div class="td-ss-main-content">
                                 <article id="post-<?php echo $td_mod_single->post->ID;?>" class="<?php echo join(' ', get_post_class());?>" <?php echo $td_mod_single->get_item_scope();?>>
-                                    
                                     <?php echo $td_mod_single->get_social_sharing_top();?>
-
                                     <div class="td-post-content">
-
-                                    <?php echo $td_mod_single->get_content();?>
+                                        <?php echo $td_mod_single->get_content();?>
                                     </div>
-
                                     <footer>
                                         <?php echo $td_mod_single->get_post_pagination();?>
                                         <?php echo $td_mod_single->get_review();?>
-
                                         <div class="td-post-source-tags">
                                             <?php echo $td_mod_single->get_source_and_via();?>
                                             <?php echo $td_mod_single->get_the_tags();?>
                                         </div>
                                     </footer>
-
                                 </article> 
                                 <!-- END PODCAST MAIN POST TEMPLATE -->
-                                <?php
-                                    } else {
-                                        // this else is for when there's no podcast post to render
-                                        echo td_page_generator::no_posts();
-                                    }
-                                    comments_template('', false);
-                                ?>
+<?php
+    } else {
+        // this else is for when there's no podcast post to render. See the if() above of which this block is the else.
+        echo td_page_generator::no_posts();
+    }
+    comments_template('', false);
+?>
                         </div>
                     </div>
                     <div class="td-pb-span4 td-main-sidebar" role="complementary">
@@ -169,8 +163,9 @@
                 </div> <!-- /.td-pb-row -->
                 <div class="wpb_wrapper td-block-title-wrap td_block_14 td_block_inner">
                     <!-- This is a custom title "More Podcasts" for the filter/block immediately below. -->
+                    <!-- The crazy inline bordering with the spans is to replicate Zaz's two-tone bottom border for the filter section titles -->
                     <h4 class="td-block-title">
-                        <span class="td-pulldown-size more-podcasts" style="font-weight: 550; "><span style="border-bottom: 2px solid #2ec9b9;">More</span> Podcasts</span>
+                        <span class="td-pulldown-size more-podcasts-block" style="font-weight: 550; display: flex;"><span style="border-bottom: 2px solid #2ec9b9;">More</span><span style="border-bottom: 2px solid #F5F5F5; width: 100%; padding-left: 5px;"> Podcasts</span></span>
                     </h4>
                     <!-- The td-column-3 div below renders the row of related podcasts immediately below the body of the post/podcast  -->
                     <div class="td-column-3 td-pb-span4 width100p">
@@ -183,7 +178,7 @@
                     </div>
                     <!-- This is a custom title "Trending" for the filter/block immediately below. -->
                     <h4 class="td-block-title">
-                        <span class="td-pulldown-size" style="font-weight: 550; "><span style="border-bottom: 2px solid #2ec9b9;">Trend</span>ing</span>
+                        <span class="td-pulldown-size trending-block-title" style="font-weight: 550; display: flex; padding-left: 22px;"><span style="border-bottom: 2px solid #2ec9b9;">Tren</span><span style="border-bottom: 2px solid #F5F5F5; width: 100%; margin-right: 22px;"> ding</span></span>
                     </h4>
                     <div class="wpb_column vc_column_container td-pb-span4">
                         <?php echo $td_block_8->render(array('limit' => 4, 'category_ids' => -21898, -1 * $promoted_id->term_id));?>
