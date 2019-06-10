@@ -36,17 +36,17 @@
 ?>
         <div class="td-main-content-wrap">
             <!-- Zaz's podcast title block here -->
-            <div class="podcast-title-background" style="width: 100%; position: relative;">
+            <div class="podcast-title-background" style="width: 100%; height: 400px; position: relative; display: flex; flex-direction: column; ">
                 <div class="podcast-background-image" 
                     style="
-                        height: 400px; 
-                        width: auto; 
+                        height: 100%; 
+                        width: 100%; 
+                        position: absolute;
                         background-image: url('https://staging-iotforall.kinsta.cloud/wp-content/uploads/2019/06/IFA-Podcast_Background_Yellow-3.png');
                         background-size: cover;
                         background-repeat: no-repeat;">
                 </div>
-                <div class="td-post-header" style="margin-right: 55px !important;">
-                    <?php echo $td_mod_single->get_category(); ?>
+                <div class="td-post-header" style="align-self : center">
                     <header class="td-post-title">
                         <div class="podcast-title-section-container" style="display: flex; justify-content: space-between; align-items: center;">
                             <div class="podcast-title-container">
@@ -61,7 +61,6 @@
                             <div style="margin-left: 20px;">
                                 <?php echo $td_mod_single->get_views();?>
                         </div>
-                    </div>
                     </header>
                 </div>
             </div>

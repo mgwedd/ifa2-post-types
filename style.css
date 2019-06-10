@@ -2097,16 +2097,16 @@ mejs-controls .mejs-time-rail .mejs-time-loaded {
 .nooverflow {
 	overflow: hidden;
 }
-
 /* AMP / WP rocket page flash override (By Dr.G) */
 .td-scroll-up {
     display: none;
 }
-/* ================================== */
-/* PODCAST TEMPLATE (By Michael Wedd) */
-/* ================================== */
-.wp_ulike_general_class, .sidebar-share-text, .wp-caption-text, .td-category {
-  display: none;
+/* ================================== 
+* PODCAST TEMPLATE (By Michael Wedd)
+* Note that some styles are inline in podcast-single.php to load on first paint
+* ================================== */
+.wp_ulike_general_class, .sidebar-share-text, .wp-caption-text, .td-category, .td-social-sidebar, .td-crumb-container {
+  display: none !important;
 }
 .entry-thumb, .wp-caption-text {
   margin: 0 !important;
@@ -2124,14 +2124,12 @@ mejs-controls .mejs-time-rail .mejs-time-loaded {
   height: 400px;
 }
 .podcast-title-container {
-  max-width: 40%
+  max-width: 40%;
+  z-index: 1;
 }
 .td-post-header {
-  margin: 0 auto;
-  margin-left: 40px;
-  padding-left: 75px; 
-  padding-right: 75px; 
-  position: absolute; 
+  max-width: 1000px;
+  padding-top: 50px; 
   bottom: 0;
 }
 .entry-title {
@@ -2151,13 +2149,11 @@ mejs-controls .mejs-time-rail .mejs-time-loaded {
   height: 300px;
   width: auto;
 } 
-.td-crumb-container {
-  display: none;
-}
 @media only screen and (max-width: 1025px) {
   .podcast-title-section-container {
       flex-direction: column-reverse;
       align-items: center;
+      max-width: 500px;
   }
   .podcast-title-container {
       max-width: 100%;
