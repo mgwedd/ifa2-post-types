@@ -2,10 +2,11 @@
 
 This repo is just a storage area for changes made live on the IFA staging server.
 
+## Problems & Solutions
 
-## Issues integrating CoSchedule and WP Structured Data Schema into the the Custom Editors
+#### Issues integrating CoSchedule and WP Structured Data Schema into the the Custom Editors
 
-##### Coschedule solution: 
+**Coschedule solution**: 
 You just need to enable it in the settings.
 
 See https://help.coschedule.com/hc/en-us/articles/215858037-Using-Custom-Post-TypesThe CoSchedule settigns.
