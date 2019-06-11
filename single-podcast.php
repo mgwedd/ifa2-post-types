@@ -46,7 +46,7 @@
                         background-size: cover;
                         background-repeat: no-repeat;">
                 </div>
-                <div class="td-post-header" style="align-self : center">
+                <div class="td-post-header" style="align-self : center;">
                     <header class="td-post-title">
                         <div class="podcast-title-section-container" style="display: flex; justify-content: space-between; align-items: center;">
                             <div class="podcast-title-container">
@@ -56,7 +56,7 @@
                                 <?php echo $td_mod_single->get_image(td_global::$load_featured_img_from_template); ?>
                             </div>
                         </div>
-                        <div class="td-module-meta-info" style="display: flex; padding-left: 45px;">
+                        <div class="td-module-meta-info" style="display: flex;">
                             <?php echo $td_mod_single->get_date(false);?>
                             <div style="margin-left: 20px;">
                                 <?php echo $td_mod_single->get_views();?>
