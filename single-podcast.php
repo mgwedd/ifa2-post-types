@@ -26,7 +26,108 @@
     $promoted_id = get_term_by('slug', 'promoted', 'category');
     $related_promoted_posts = $td_mod_single->related_promoted_posts();
 ?>
-
+<style>
+.wp_ulike_general_class, .sidebar-share-text, .wp-caption-text, .td-category, .td-social-sidebar, .td-crumb-container {
+  display: none !important;
+}
+.entry-thumb, .wp-caption-text {
+  margin: 0 !important;
+}
+.td-module-meta-info {
+  position: relative ;
+}
+.podcast-background-image {
+    height: 100%; 
+    width: 100%; 
+    position: absolute;
+    background-image: url('https://staging-iotforall.kinsta.cloud/wp-content/uploads/2019/06/IFA-Podcast_Background_Yellow-3.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+.td-post-image {
+  opacity: 0.2;
+}
+.wp-caption-text {
+  padding-left: 5px; 
+}
+.podcast-background-image .entry-thumb {
+  height: 400px;
+}
+.podcast-title-section-container {
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center;
+}
+.podcast-title-background {
+    width: 100%; 
+    height: 400px; 
+    position: relative; 
+    display: flex; 
+    flex-direction: column; 
+}
+.podcast-title-container {
+  max-width: 40%;
+  z-index: 1;
+}
+.td-post-header {
+  max-width: 1065px;
+  padding-top: 50px; 
+  bottom: 0;
+}
+.entry-title {
+  font-family: 'Open Sans', sans-serif; 
+  color: #000; 
+  font-size: 30px; 
+  line-height: 30px; 
+  font-weight: 800;
+  top: 50%;
+}
+.podcast-featured-image-container {
+  height: auto; 
+}
+.podcast-featured-image-container img {
+  border-radius: 5px;
+  box-shadow: 2px 2px 20px 0 rgba(0, 0, 0, 0.2);
+  height: 300px;
+  width: auto;
+} 
+@media only screen and (max-width: 1025px) {
+  .podcast-title-section-container {
+      flex-direction: column-reverse;
+      align-items: center;
+      max-width: 500px;
+  }
+  .podcast-title-container {
+      max-width: 100%;
+      padding-left: 0;
+      padding-right: 0;
+      max-width: 100%;
+  }
+  .entry-title {
+      font-size: 16px;
+  }
+  .td-post-header {
+      top: 10px;
+      height: 100%;
+      bottom: initial;
+  }
+  .podcast-featured-image-container img {
+      height: 250px;
+  }
+  .td-module-meta-info {
+      padding-top: 5px;
+      justify-content: center;
+  }
+  .td-post-date {
+      margin-left: 0px !important;
+  }
+}
+@media only screen and (max-width: 875px) {
+  .podcastsubscribe {
+      display: none;
+  }
+}
+</style>
 <?php
     if (have_posts()) {
         the_post();
@@ -36,19 +137,12 @@
 ?>
         <div class="td-main-content-wrap">
             <!-- Zaz's podcast title block here -->
-            <div class="podcast-title-background" style="width: 100%; height: 400px; position: relative; display: flex; flex-direction: column; ">
-                <div class="podcast-background-image" 
-                    style="
-                        height: 100%; 
-                        width: 100%; 
-                        position: absolute;
-                        background-image: url('https://staging-iotforall.kinsta.cloud/wp-content/uploads/2019/06/IFA-Podcast_Background_Yellow-3.png');
-                        background-size: cover;
-                        background-repeat: no-repeat;">
+            <div class="podcast-title-background">
+                <div class="podcast-background-image">
                 </div>
                 <div class="td-post-header" style="align-self : center;">
                     <header class="td-post-title">
-                        <div class="podcast-title-section-container" style="display: flex; justify-content: space-between; align-items: center;">
+                        <div class="podcast-title-section-container">
                             <div class="podcast-title-container">
                                 <?php echo $td_mod_single->get_title();?> 
                             </div>

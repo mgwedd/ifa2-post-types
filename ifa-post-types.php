@@ -39,9 +39,9 @@ function ifa_post_types() {
     );
 
     register_post_type('podcast', array(
-        'supports' => array('title', 'editor', 'author', 'thumbnail', 'revisions'),
+        'supports' => array('title', 'editor', 'thumbnail', 'revisions'),
         'rewrite' => array(
-            'slug' => 'podcasts'
+            'slug' => 'podcast'
         ),
         'public' => true, 
         'show_in_menu' => true,
