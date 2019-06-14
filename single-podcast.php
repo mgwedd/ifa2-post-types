@@ -7,10 +7,7 @@
 * NOTES: This post type is registered in the must-use plugin "IFA Custom Post Types," located at: ../mu-plugins/ifa-post-types.php
 * This template (a hack) is completely dependant on the Newspaper theme. 
 * I've made efforts to reduce this templates dependency on other theme files in order to reduce complexity,
-* by pulling the code from previously referenced files into this file. 
-* Some styles are declared in-line due to load sequence problems on first paint (ie re-renders when styles come in late). 
-* I chose a good first paint was over pure speed to a paint. All other styles (most styles) are in style.css, 
-* starting around line 2100 (as of writing this). Search "PODCAST TEMPLATE". 
+* by pulling the code from previously referenced files into this file.  
 * Updates to the Newspaper theme could break this template. Fun right? TBD!
 */
     locate_template('includes/wp_booster/td_single_template_vars.php', true);
@@ -26,6 +23,9 @@
     $promoted_id = get_term_by('slug', 'promoted', 'category');
     $related_promoted_posts = $td_mod_single->related_promoted_posts();
 ?>
+<!-- Styles are placed here a) to limit the scope of these modifications to this template, not all posts, since there are mods to theme-level elements, 
+and b) to decouple the template as much as possible from the theme. There is some cost to load speed but nothing major.
+Some tyles are declared inline to wrestle control from the theme.-->
 <style>
 .wp_ulike_general_class, .sidebar-share-text, .wp-caption-text, .td-category, .td-social-sidebar, .td-crumb-container {
   display: none !important;
@@ -73,6 +73,7 @@
   max-width: 1065px;
   padding-top: 50px; 
   bottom: 0;
+  align-self : center;
 }
 .entry-title {
   font-family: 'Open Sans', sans-serif; 
@@ -115,6 +116,7 @@
       height: 250px;
   }
   .td-module-meta-info {
+      display: flex;
       padding-top: 5px;
       justify-content: center;
   }
@@ -140,7 +142,7 @@
             <div class="podcast-title-background">
                 <div class="podcast-background-image">
                 </div>
-                <div class="td-post-header" style="align-self : center;">
+                <div class="td-post-header">
                     <header class="td-post-title">
                         <div class="podcast-title-section-container">
                             <div class="podcast-title-container">
@@ -150,10 +152,9 @@
                                 <?php echo $td_mod_single->get_image(td_global::$load_featured_img_from_template); ?>
                             </div>
                         </div>
-                        <div class="td-module-meta-info" style="display: flex;">
+                        <div class="td-module-meta-info" style="max-width: 150px;">
                             <?php echo $td_mod_single->get_date(false);?>
-                            <div style="margin-left: 20px;">
-                                <?php echo $td_mod_single->get_views();?>
+                            <?php echo $td_mod_single->get_views();?>
                         </div>
                     </header>
                 </div>
@@ -258,7 +259,10 @@
                     <!-- This is a custom title "More Podcasts" for the filter/block immediately below. -->
                     <!-- The crazy inline bordering with the spans is to replicate Zaz's two-tone bottom border for the filter section titles -->
                     <h4 class="td-block-title">
-                        <span class="td-pulldown-size more-podcasts-block" style="font-weight: 550; display: flex;"><span style="border-bottom: 2px solid #2ec9b9;">More</span><span style="border-bottom: 2px solid #F5F5F5; width: 100%; padding-left: 5px;"> Podcasts</span></span>
+                        <span class="td-pulldown-size more-podcasts-block" style="font-weight: 550; display: flex;">
+                            <span style="border-bottom: 2px solid #2ec9b9;">More</span>
+                            <span style="border-bottom: 2px solid #F5F5F5; width: 100%; padding-left: 5px;"> Podcasts</span>
+                        </span>
                     </h4>
                     <!-- The td-column-3 div below renders the row of related podcasts immediately below the body of the post/podcast  -->
                     <div class="td-column-3 td-pb-span4 width100p">
@@ -271,7 +275,10 @@
                     </div>
                     <!-- This is a custom title "Trending" for the filter/block immediately below. -->
                     <h4 class="td-block-title">
-                        <span class="td-pulldown-size trending-block-title" style="font-weight: 550; display: flex; padding-left: 22px;"><span style="border-bottom: 2px solid #2ec9b9;">Tren</span><span style="border-bottom: 2px solid #F5F5F5; width: 100%; margin-right: 22px;"> ding</span></span>
+                        <span class="td-pulldown-size trending-block-title" style="font-weight: 550; display: flex; padding-left: 22px;">
+                            <span style="border-bottom: 2px solid #2ec9b9;">Tren</span>
+                            <span style="border-bottom: 2px solid #F5F5F5; width: 100%; margin-right: 22px;">ding</span>
+                        </span>
                     </h4>
                     <div class="wpb_column vc_column_container td-pb-span4">
                         <?php echo $td_block_8->render(array('limit' => 4, 'category_ids' => -21898, -1 * $promoted_id->term_id));?>

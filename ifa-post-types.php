@@ -51,6 +51,54 @@ function ifa_post_types() {
         'menu_icon' => 'dashicons-controls-volumeon'
      ));
 
+    /* ============= PROVIDER =============
+     */
+
+    $provider_labels = array(
+        'name' => 'Provider',
+        'add_new_item' => 'Add Provider',
+        'edit_item' => 'Edit Provider',
+        'update_item' => 'Update Provider',
+        'view_item' => 'View This Provider', 
+        'view_items' => 'View Providers',
+        'search_items' => 'Search Providers',
+        'not_found' => 'Provider Not Found',
+        'not_found_in_trash' => 'Provider Not Found in Trash',
+        'all_items' => 'All Providers',
+        'singular_name' => 'Provider'
+    );
+
+    register_post_type('provider', array(
+        'supports' => array('title', 'author', 'editor', 'thumbnail', 'revisions'),
+        'rewrite' => array(
+            'slug' => 'providers'
+        ),
+        'public' => true, 
+        'show_in_menu' => true,
+        'show_in_rest' => true,
+        'taxonomies'  => array( 'category', 'tag' ),
+        'labels' => $provider_labels, 
+        'menu_icon' => 'dashicons-groups'
+     ));
+     
+    //  ============= SOLUTION ============= 
+    register_post_type('solution', array(
+        'supports' => array('title', 'editor', 'author', 'excerpt', 'thumbnail', 'revisions'),
+        'rewrite' => array(
+            'slug' => 'solutions'
+        ),
+        'public' => true, 
+        'show_in_rest' => true,
+        'labels' => array(
+            'name' => 'Solution',
+            'add_new_item' => 'Add Solution',
+            'edit_item' => 'Edit Solution',
+            'all_items' => 'All Solutions',
+            'singular_name' => 'Solution'
+        ), 
+        'menu_icon' => 'dashicons-admin-network'
+     ));
+
     //  ============= PRESS RELEASE ============= 
     register_post_type('press_release', array(
         'supports' => array('title', 'editor', 'author', 'excerpt', 'thumbnail', 'revisions'),
@@ -85,24 +133,6 @@ function ifa_post_types() {
             'singular_name' => 'White Paper'
         ), 
         'menu_icon' => 'dashicons-book-alt'
-     ));
-
-    //  ============= SOLUTION ============= 
-    register_post_type('solution', array(
-        'supports' => array('title', 'editor', 'author', 'excerpt', 'thumbnail', 'revisions'),
-        'rewrite' => array(
-            'slug' => 'solutions'
-        ),
-        'public' => true, 
-        'show_in_rest' => true,
-        'labels' => array(
-            'name' => 'Solution',
-            'add_new_item' => 'Add Solution',
-            'edit_item' => 'Edit Solution',
-            'all_items' => 'All Solutions',
-            'singular_name' => 'Solution'
-        ), 
-        'menu_icon' => 'dashicons-admin-network'
      ));
 }
 
