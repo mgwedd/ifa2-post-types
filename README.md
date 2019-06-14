@@ -17,4 +17,5 @@ This repo is just a storage area for changes made live on the IFA staging server
 10. **TODO** Change the Filter on the Podcast page ([on the theme UI](https://imgur.com/a/kjuG7Wg)) to filter for the new podcast post type rather than the old category hack we were using. 
 11. Go into the WP SEO Structured Data plugin settings and enable all the new post types (see closed issues in this repo for instructions).
 12. Follow [these instructions](https://help.coschedule.com/hc/en-us/articles/215858037-Using-Custom-Post-TypesThe) to enable CoSchedule for this new post type. If it doesn't appear on CoSchedule's UI, then we know that the post type isn't being populated in the `wp-posts` table in the database, so go about figuring that out. Talk to James about this if needed. 
-13. Monitor and test extensively. 
+13. Enable the custom post type in the AMP plugin settings. 
+14. Monitor and test extensively. 
