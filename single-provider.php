@@ -106,6 +106,56 @@ Some tyles are declared inline to wrestle control from the theme.-->
     box-shadow: 1px 1px 3px 0 rgba(0, 0, 0, 0.25); 
     margin-right: 32px;
 }
+.provider-info-box {
+    display: flex;
+    flex-direction: column;
+    width: 160px;
+    font-size: 14px;
+}
+.provider-main-area {
+    display: flex;
+    height: auto;
+    margin-top: 2px;
+    padding-top: 80px;
+    padding-bottom: 80px;
+    justify-content: center;
+    background-color: #f9faff;
+}
+.provider-main-content-container {
+    display: flex;
+    justify-content: center;
+    max-width: 1000px;
+    width: 100%;
+    font-size: 12px !important;
+}
+.provider-body-container {
+    width: 550px;
+    height: auto;
+    padding: 24px 40px 32px;
+    border-radius: 4px;
+    background-color: #fff;
+    box-shadow: 1px 1px 3px 0 rgba(0, 0, 0, 0.2);
+}
+.provider-title {
+    
+}
+.provider-body {
+
+}
+.our-solutions-container {
+    width: 240px;
+    height: 300px;;
+    padding-right: 16px;
+    padding-bottom: 24px;
+    padding-left: 16px;
+    padding: 24px 40px 32px;
+    border-radius: 4px;
+    background-color: #fff;
+    box-shadow: 1px 1px 3px 0 rgba(0, 0, 0, 0.2);
+    font-size: 12px !important;
+
+}
+
 </style>
 <?php
     if (have_posts()) {
@@ -138,13 +188,35 @@ Some tyles are declared inline to wrestle control from the theme.-->
                 </div>
             </div>
         </section>
-            <div class="td-post-header">
-                <header class="td-post-title provider-title-section-container">
-                    <div class="provider-title-container">
+        <!-- This is the provider main content area div, containing everything above the filter block section -->
+        <section class="provider-main-area">
+            <div class="provider-main-content-container">
+                <div class="provider-info-box">
+                    <!-- to be populated with dynamic author info -->
+                    <p>Leverege LLC</p>
+                    <p>Rockville, MD</p>
+                    <p>Social Media Bar</p>
+                </div>
+                <div class="provider-body-container">
+                    <div class="provider-title">
                         <?php echo $td_mod_single->get_title(); ?> 
                     </div>
-                </header>
+                    <div class="provider-content">
+                        <?php echo $td_mod_single->get_content();?>
+                    </div>
+                </div>
+                <div class="our-solutions-container">
+                    <p>Our Solutions<p>
+                        <ul>
+                            <li><p>Asset Tracking</p></li>
+                            <li><p>Asset Tracking</p></li>
+                            <li><p>Asset Tracking</p></li>
+                            <li><p>Asset Tracking</p></li>
+                            <li><p>Asset Tracking</p></li>
+                        </ul>
+                </div>
             </div>
+        </section>
         <!-- END TOP SECTION || BELOW IS THE MAIN POST BODY -->
         <div class="td-container td-post-template-default <?php echo $td_sidebar_position; ?>">
             <div class="td-crumb-container"><?php echo td_page_generator::get_single_breadcrumbs($td_mod_single->title); ?></div>
@@ -153,9 +225,6 @@ Some tyles are declared inline to wrestle control from the theme.-->
                         <div class="td-ss-main-content">
                             <article id="post-<?php echo $td_mod_single->post->ID;?>" class="<?php echo join(' ', get_post_class());?>" <?php echo $td_mod_single->get_item_scope();?>>
                                 <?php echo $td_mod_single->get_social_sharing_top();?>
-                                <div class="td-post-content">
-                                    <?php echo $td_mod_single->get_content();?>
-                                </div>
                                 <footer>
                                     <?php echo $td_mod_single->get_post_pagination();?>
                                     <div class="td-post-source-tags">
@@ -174,13 +243,9 @@ Some tyles are declared inline to wrestle control from the theme.-->
 ?>
                     </div>
                 </div>
-                <div class="td-pb-span4 td-main-sidebar" role="complementary">
-                    <div class="td-ss-main-sidebar">
-                    <!-- BEGIN provider Subscribe Custom Static Sidebar -->
-                    <!-- CHANGE THIS TO THE QUICK LINKS SIDEBAR -->
-                    </div>
-                </div> <!-- /.td-pb-row -->
-            <div class="wpb_wrapper td-block-title-wrap td_block_14 td_block_inner">
+
+            <!-- the div immediately below renders the "more providers" filter block, but it slides up on the right currently. -->
+            <div class="wpb_wrapper td-block-title-wrap td_block_14 td_block_inner" style="margin-top: 550px;">
                 <!-- This is a custom title "More providers" for the filter/block immediately below. -->
                 <!-- The crazy inline bordering with the spans is to replicate Zaz's two-tone bottom border for the filter section titles -->
                 <h4 class="td-block-title">
