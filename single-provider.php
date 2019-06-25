@@ -9,6 +9,7 @@
 * I've made efforts to reduce this templates dependency on other theme files in order to reduce complexity,
 * by pulling the code from previously referenced files into this file.  
 * Updates to the Newspaper theme could break this template. Fun right? TBD!
+* This template uses SVG icons, so you'll need this plugin to run the template: https://wordpress.org/plugins/safe-svg/
 */
     locate_template('includes/wp_booster/td_single_template_vars.php', true);
     get_header();
@@ -35,14 +36,6 @@ Some tyles are declared inline to wrestle control from the theme.-->
 .td-crumb-container, 
 .swp_social_panel {
   display: none !important;
-}
-.entry-title {
-  font-family: 'Open Sans', sans-serif; 
-  text-align: center;
-  color: #000; 
-  font-size: 30px; 
-  line-height: 30px; 
-  font-weight: 800;
 }
 .provider-practices-container {
     display: flex;
@@ -106,12 +99,45 @@ Some tyles are declared inline to wrestle control from the theme.-->
     box-shadow: 1px 1px 3px 0 rgba(0, 0, 0, 0.25); 
     margin-right: 32px;
 }
+/* ================= */
+/* PROVIDER INFO BOX */
 .provider-info-box {
     display: flex;
     flex-direction: column;
     width: 160px;
     font-size: 14px;
+    color: #333;
 }
+.provider-name-info-box {
+    margin: 0;
+}
+.link-icon {
+    width: 16px;
+    height: 16px;
+    margin-right: 8px;
+    opacity: 1;
+}
+.provider-website-link:link, 
+.provider-website-link:visited {
+    color: #333;
+}
+.provider-website-link:hover, 
+.provider-website-link:active {
+    transition: all 200ms ease;
+    color: #05b0bd;
+}
+.provider-social-container {
+    display: flex;
+}
+.td-icon-font {
+    color: black;
+    size: 16px;
+}
+/* so social bar is aligned with link and title... -_- */
+.td-social-icon-wrap:first-of-type {
+    margin-left: -10px;
+}
+/* ================= */
 .provider-main-area {
     display: flex;
     height: auto;
@@ -127,19 +153,26 @@ Some tyles are declared inline to wrestle control from the theme.-->
     max-width: 1000px;
     width: 100%;
     font-size: 12px !important;
+    font-family: 'Open Sans', sans-serif;
+    color: rgba(0, 0, 0, 0.5);
 }
 .provider-body-container {
     width: 550px;
     height: auto;
     padding: 24px 40px 32px;
+    margin-left: 30px;
+    margin-right: 30px;
     border-radius: 4px;
     background-color: #fff;
     box-shadow: 1px 1px 3px 0 rgba(0, 0, 0, 0.2);
 }
-.provider-title {
-    
+.provider-name-body {
+    margin-bottom: 24px;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
+    line-height: 24px;
 }
-.provider-body {
+.about-provider {
 
 }
 .our-solutions-container {
@@ -153,7 +186,6 @@ Some tyles are declared inline to wrestle control from the theme.-->
     background-color: #fff;
     box-shadow: 1px 1px 3px 0 rgba(0, 0, 0, 0.2);
     font-size: 12px !important;
-
 }
 
 </style>
@@ -161,7 +193,11 @@ Some tyles are declared inline to wrestle control from the theme.-->
     if (have_posts()) {
         the_post();
         $td_mod_single = new td_module_single($post);
-        global $loop_sidebar_position;
+        global $loop_sidebar_position, $part_cur_auth_obj;
+        // get the author/provider object by the url route.
+        $part_cur_auth_obj = (get_query_var('author_name')) ? get_user_by('slug', get_query_var('author_name')) : get_userdata(get_query_var('author'));
+        $providerID = get_the_author_meta('ID', $part_cur_auth_obj->ID);
+        $providerName = get_the_author_meta('display_name', $providerID);
         echo $td_mod_single->get_social_sharing_side(); // potentially cut this out
 ?>
         <!-- BEGIN TOP SECTION (ABOVE BODY) -->
@@ -189,19 +225,38 @@ Some tyles are declared inline to wrestle control from the theme.-->
             </div>
         </section>
         <!-- This is the provider main content area div, containing everything above the filter block section -->
-        <section class="provider-main-area">
+        <main class="provider-main-area">
             <div class="provider-main-content-container">
-                <div class="provider-info-box">
-                    <!-- to be populated with dynamic author info -->
-                    <p>Leverege LLC</p>
-                    <p>Rockville, MD</p>
-                    <p>Social Media Bar</p>
-                </div>
-                <div class="provider-body-container">
-                    <div class="provider-title">
-                        <?php echo $td_mod_single->get_title(); ?> 
+                <section class="provider-info-box">
+                <!-- INSERT AUTHOR BOX WHEN MODDED -->
+                    <h2 class="provider-name-info-box">
+                        <?php 
+                            echo $providerName;
+                        ?>
+                    </h2>
+                    <?php  
+                        $userURL = get_the_author_meta('user_url', $providerID);
+                        echo '<a class="provider-website-link" href="' . esc_url($userURL) . '">' . '<img class="link-icon" src="https://staging-iotforall.kinsta.cloud/wp-content/uploads/2019/06/link.svg">' . $providerName . '.com' . '</a>';
+                    ?>
+                    <div class="provider-social-container">
+                        <?php
+                            foreach (td_social_icons::$td_social_icons_array as $td_social_id => $td_social_name) {
+                                $authorMeta = get_the_author_meta($td_social_id, $providerID);
+                                if (!empty($authorMeta)) {
+                                    echo td_social_icons::get_icon($authorMeta, $td_social_id, true );
+                                }
+                            }
+                        ?>
                     </div>
-                    <div class="provider-content">
+                    <?php 
+                        echo get_avatar($providerID, array("size"=>96)); 
+                    ?>
+                </section>
+                <div class="provider-body-container">
+                    <div class="provider-name-body">
+                        <h2><?php echo $providerName; ?></h2>
+                    </div>
+                    <div class="about-provider">
                         <?php echo $td_mod_single->get_content();?>
                     </div>
                 </div>
@@ -216,7 +271,10 @@ Some tyles are declared inline to wrestle control from the theme.-->
                         </ul>
                 </div>
             </div>
-        </section>
+        </main>
+        <div class="td-pb-span12 td-main-content">
+
+        </div>
         <!-- END TOP SECTION || BELOW IS THE MAIN POST BODY -->
         <div class="td-container td-post-template-default <?php echo $td_sidebar_position; ?>">
             <div class="td-crumb-container"><?php echo td_page_generator::get_single_breadcrumbs($td_mod_single->title); ?></div>
@@ -245,13 +303,13 @@ Some tyles are declared inline to wrestle control from the theme.-->
                 </div>
 
             <!-- the div immediately below renders the "more providers" filter block, but it slides up on the right currently. -->
-            <div class="wpb_wrapper td-block-title-wrap td_block_14 td_block_inner" style="margin-top: 550px;">
+            <div class="wpb_wrapper td-block-title-wrap td_block_14 td_block_inner" style="margin-top: 100px;">
                 <!-- This is a custom title "More providers" for the filter/block immediately below. -->
                 <!-- The crazy inline bordering with the spans is to replicate Zaz's two-tone bottom border for the filter section titles -->
                 <h4 class="td-block-title">
                     <span class="td-pulldown-size more-providers-block" style="font-weight: 550; display: flex;">
-                        <span style="border-bottom: 2px solid #2ec9b9;">More</span>
-                        <span style="border-bottom: 2px solid #F5F5F5; width: 100%; padding-left: 5px;"> providers</span>
+                        <span style="border-bottom: 2px solid #2ec9b9;">Solu</span>
+                        <span style="border-bottom: 2px solid #F5F5F5; width: 100%;">tions</span>
                     </span>
                 </h4>
                 <!-- The td-column-3 div below renders the row of related providers immediately below the body of the post/provider  -->
