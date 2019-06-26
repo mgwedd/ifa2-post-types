@@ -28,6 +28,10 @@
 and b) to decouple the template as much as possible from the theme. There is some cost to load speed but nothing major.
 Some tyles are declared inline to wrestle control from the theme.-->
 <style>
+p {
+    font-size: 14px !important;
+    line-height: 20px !important;
+}
 .wp_ulike_general_class, 
 .sidebar-share-text, 
 .wp-caption-text, 
@@ -39,6 +43,7 @@ Some tyles are declared inline to wrestle control from the theme.-->
 }
 .provider-practices-container {
     display: flex;
+    margin-left: 33px;
 }
 .provider-practices {
     background-color: #ecf0f3; 
@@ -51,13 +56,22 @@ Some tyles are declared inline to wrestle control from the theme.-->
     margin-right: 8px;
     padding: 2px 15px;
 }
+.provider-practices:hover {
+    background-color: #fff;
+    box-shadow: 1px 1px 6px 0 rgba(0, 0, 0, 0.1);
+}
 .see-solutions-button {
     background-color: #22af96; 
     color: white; 
     height: 38px; 
     border: 0; 
-    border-radius: 4px; 
+    border-radius: 4px;
     cursor: pointer;
+}
+.see-solutions-button:hover {
+    transform: scale(1.03);
+    background-color: #1c8991;
+    transition: all 250ms ease;
 }
 .see-solutions-link {
     text-decoration: none; 
@@ -91,20 +105,33 @@ Some tyles are declared inline to wrestle control from the theme.-->
     display: flex; 
     align-items: center;
 }
+.provider-logo-wrapper {
+    width: 52px;
+    height: 52px;
+}
+
+.provider-logo-wrapper > img{
+    width: 100%;
+    width: 60px;
+}
 .provider-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 75px;
+    height: 75px;
     border-radius: 100px; 
-    width: 100px; 
-    height: 100px; 
     background-color: #fff; 
     box-shadow: 1px 1px 3px 0 rgba(0, 0, 0, 0.25); 
-    margin-right: 32px;
 }
 /* ================= */
 /* PROVIDER INFO BOX */
 .provider-info-box {
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     width: 160px;
+    height: 130px;
     font-size: 14px;
     color: #333;
 }
@@ -121,23 +148,26 @@ Some tyles are declared inline to wrestle control from the theme.-->
 .provider-website-link:visited {
     color: #333;
 }
-.provider-website-link:hover, 
+.provider-website-link:hover,
+.link-icon:hover,
 .provider-website-link:active {
     transition: all 200ms ease;
-    color: #05b0bd;
+    color: #05b0bd !important;
 }
 .provider-social-container {
     display: flex;
 }
-.td-icon-font {
+/* must give containing class otherwise other social bars on the page are affected. */
+.provider-social-container .td-icon-font {
     color: black;
     size: 16px;
 }
-/* so social bar is aligned with link and title... -_- */
-.td-social-icon-wrap:first-of-type {
+/* so that social bar is aligned with link and title... -_- */
+.provider-social-container .td-social-icon-wrap:first-of-type {
     margin-left: -10px;
 }
 /* ================= */
+/* MAIN CONTENT AREA */
 .provider-main-area {
     display: flex;
     height: auto;
@@ -145,14 +175,13 @@ Some tyles are declared inline to wrestle control from the theme.-->
     padding-top: 80px;
     padding-bottom: 80px;
     justify-content: center;
-    background-color: #f9faff;
+    background-color: #edf0f3;
 }
 .provider-main-content-container {
     display: flex;
     justify-content: center;
     max-width: 1000px;
     width: 100%;
-    font-size: 12px !important;
     font-family: 'Open Sans', sans-serif;
     color: rgba(0, 0, 0, 0.5);
 }
@@ -169,12 +198,35 @@ Some tyles are declared inline to wrestle control from the theme.-->
 .provider-name-body {
     margin-bottom: 24px;
     font-family: 'Open Sans', sans-serif;
-    font-size: 16px;
-    line-height: 24px;
+    font-size: 16px !important;
+    line-height: 24px !important;
+}
+.provider-featured-banner {
+}
+.td-post-featured-image, 
+.td-post-featured-image > img {
+    border-radius: 4px
+}
+.provider-featured-banner:hover {
+    transition: all 300ms ease;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    cursor: pointer; 
+    transform: scale(1.01);
 }
 .about-provider {
 
 }
+.provider-heading-2 {
+    margin-top: 0px;
+    margin-bottom: 24px;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: bold;
+    color: #333;
+}
+  
+/* OUR SOLUTIONS CUSTOM SIDEBAR */
 .our-solutions-container {
     width: 240px;
     height: 300px;;
@@ -185,9 +237,19 @@ Some tyles are declared inline to wrestle control from the theme.-->
     border-radius: 4px;
     background-color: #fff;
     box-shadow: 1px 1px 3px 0 rgba(0, 0, 0, 0.2);
-    font-size: 12px !important;
+}
+.our-solutions-container .td-module-meta-info, 
+.our-solutions-container .entry-thumb {
+    display: none !important;
 }
 
+.our-solutions-container .td_module_7 .item-details {
+    margin-right: 0 !important;
+    min-height: 0px;
+}
+.our-solutions-container .td_module_7 {
+    padding-bottom: 10px !important;
+}
 </style>
 <?php
     if (have_posts()) {
@@ -198,6 +260,7 @@ Some tyles are declared inline to wrestle control from the theme.-->
         $part_cur_auth_obj = (get_query_var('author_name')) ? get_user_by('slug', get_query_var('author_name')) : get_userdata(get_query_var('author'));
         $providerID = get_the_author_meta('ID', $part_cur_auth_obj->ID);
         $providerName = get_the_author_meta('display_name', $providerID);
+        $providerWebsiteLink = get_the_author_meta('user_url', $providerID);
         echo $td_mod_single->get_social_sharing_side(); // potentially cut this out
 ?>
         <!-- BEGIN TOP SECTION (ABOVE BODY) -->
@@ -207,7 +270,12 @@ Some tyles are declared inline to wrestle control from the theme.-->
                     <div class="top-bar-content-container">
                     <div class="logo-and-practices-container">
                         <div class="provider-logo">
-                            <?php echo $td_mod_single->get_image(td_global::$load_featured_img_from_template); ?>
+                            <div class="provider-logo-wrapper">
+                                <?php 
+                                    echo get_avatar($providerID);
+                                ?>
+                            </div> 
+
                         </div>
                         <!-- hardcoded categories for now. figure this out later dynamically. -->
                         <div class="provider-practices-container" >
@@ -217,7 +285,7 @@ Some tyles are declared inline to wrestle control from the theme.-->
                     </div>
                     <button class="see-solutions-button">
                         <!-- the link here will need to dynamically map author name to their solutions page, and then fetch that url. Yikes. -->
-                        <a href="#" class="see-solutions-link">
+                        <a href="<?php echo esc_url($providerWebsiteLink)?>" class="see-solutions-link">
                             See Our Solutions
                         </a>
                     </button>
@@ -235,8 +303,7 @@ Some tyles are declared inline to wrestle control from the theme.-->
                         ?>
                     </h2>
                     <?php  
-                        $userURL = get_the_author_meta('user_url', $providerID);
-                        echo '<a class="provider-website-link" href="' . esc_url($userURL) . '">' . '<img class="link-icon" src="https://staging-iotforall.kinsta.cloud/wp-content/uploads/2019/06/link.svg">' . $providerName . '.com' . '</a>';
+                        echo '<a class="provider-website-link" href="' . esc_url($providerWebsiteLink) . '">' . '<img class="link-icon" src="https://staging-iotforall.kinsta.cloud/wp-content/uploads/2019/06/link.svg">' . $providerName . '.com' . '</a>';
                     ?>
                     <div class="provider-social-container">
                         <?php
@@ -248,27 +315,23 @@ Some tyles are declared inline to wrestle control from the theme.-->
                             }
                         ?>
                     </div>
-                    <?php 
-                        echo get_avatar($providerID, array("size"=>96)); 
-                    ?>
                 </section>
                 <div class="provider-body-container">
                     <div class="provider-name-body">
-                        <h2><?php echo $providerName; ?></h2>
+                        <h2 class="provider-heading-2">About <?php echo $providerName; ?></h2>
                     </div>
                     <div class="about-provider">
+                        <div class="provider-featured-banner">
+                            <a href="<?php echo esc_url($providerWebsiteLink)?>">
+                                <?php echo $td_mod_single->get_image(td_global::$load_featured_img_from_template); ?>
+                            </a>
+                        </div>
                         <?php echo $td_mod_single->get_content();?>
                     </div>
                 </div>
                 <div class="our-solutions-container">
-                    <p>Our Solutions<p>
-                        <ul>
-                            <li><p>Asset Tracking</p></li>
-                            <li><p>Asset Tracking</p></li>
-                            <li><p>Asset Tracking</p></li>
-                            <li><p>Asset Tracking</p></li>
-                            <li><p>Asset Tracking</p></li>
-                        </ul>
+                    <h2 class="provider-heading-2">Our Solutions<h2>
+                    <?php echo $td_block_8->render(array('limit' => 4, 'category_ids' => -21898, -1 * $promoted_id->term_id));?>
                 </div>
             </div>
         </main>
@@ -303,7 +366,7 @@ Some tyles are declared inline to wrestle control from the theme.-->
                 </div>
 
             <!-- the div immediately below renders the "more providers" filter block, but it slides up on the right currently. -->
-            <div class="wpb_wrapper td-block-title-wrap td_block_14 td_block_inner" style="margin-top: 100px;">
+            <div class="wpb_wrapper td-block-title-wrap td_block_14 td_block_inner" style="margin-top: 50px;">
                 <!-- This is a custom title "More providers" for the filter/block immediately below. -->
                 <!-- The crazy inline bordering with the spans is to replicate Zaz's two-tone bottom border for the filter section titles -->
                 <h4 class="td-block-title">
@@ -324,8 +387,8 @@ Some tyles are declared inline to wrestle control from the theme.-->
                 <!-- This is a custom title "Trending" for the filter/block immediately below. -->
                 <h4 class="td-block-title">
                     <span class="td-pulldown-size trending-block-title" style="font-weight: 550; display: flex; padding-left: 22px;">
-                        <span style="border-bottom: 2px solid #2ec9b9;">Tren</span>
-                        <span style="border-bottom: 2px solid #F5F5F5; width: 100%; margin-right: 22px;">ding</span>
+                        <span style="border-bottom: 2px solid #2ec9b9;">Inte</span>
+                        <span style="border-bottom: 2px solid #F5F5F5; width: 100%; margin-right: 22px;">rviews</span>
                     </span>
                 </h4>
                 <div class="wpb_column vc_column_container td-pb-span4">
