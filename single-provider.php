@@ -202,11 +202,10 @@ p {
     line-height: 24px !important;
 }
 .provider-featured-banner {
+    border-radius: 4px;
 }
-.td-post-featured-image, 
-.td-post-featured-image > img {
-    border-radius: 4px
-}
+/* .td-post-featured-image, 
+} */
 .provider-featured-banner:hover {
     transition: all 300ms ease;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
@@ -260,8 +259,9 @@ p {
         $part_cur_auth_obj = (get_query_var('author_name')) ? get_user_by('slug', get_query_var('author_name')) : get_userdata(get_query_var('author'));
         $providerID = get_the_author_meta('ID', $part_cur_auth_obj->ID);
         $providerName = get_the_author_meta('display_name', $providerID);
+        $providerCategoriesArr = get_the_terms($post->ID, 'category' );
         $providerWebsiteLink = get_the_author_meta('user_url', $providerID);
-        echo $td_mod_single->get_social_sharing_side(); // potentially cut this out
+        // echo $td_mod_single->get_social_sharing_side(); // potentially cut this out
 ?>
         <!-- BEGIN TOP SECTION (ABOVE BODY) -->
         <section class="td-main-content-wrap">
@@ -277,15 +277,19 @@ p {
                             </div> 
 
                         </div>
-                        <!-- hardcoded categories for now. figure this out later dynamically. -->
-                        <div class="provider-practices-container" >
-                            <div class="provider-practices">Software Platform</div>
-                            <div class="provider-practices">System Integrator</div>
+                        <div class="provider-practices-container">
+                            <?php 
+                                // cats are limited to 3 for styling reasons. You could change the styling and set a higher limit. Just change the array slice. 
+                                $providerCatLimit3 = array_slice($providerCategoriesArr, 0, 3);
+                                foreach ( $providerCatLimit3 as $cat ) { ?>
+                                    <a class="provider-practices" href="<?php echo get_term_link($cat->slug, 'category'); ?>" target="_blank">
+                                        <?php echo $cat->name; ?>
+                                    </a>
+                            <?php } ?>                            
                         </div>
                     </div>
                     <button class="see-solutions-button">
-                        <!-- the link here will need to dynamically map author name to their solutions page, and then fetch that url. Yikes. -->
-                        <a href="<?php echo esc_url($providerWebsiteLink)?>" class="see-solutions-link">
+                        <a href="<?php echo esc_url($providerWebsiteLink)?>" class="see-solutions-link" target="_blank">
                             See Our Solutions
                         </a>
                     </button>
@@ -296,14 +300,14 @@ p {
         <main class="provider-main-area">
             <div class="provider-main-content-container">
                 <section class="provider-info-box">
-                <!-- INSERT AUTHOR BOX WHEN MODDED -->
                     <h2 class="provider-name-info-box">
                         <?php 
                             echo $providerName;
                         ?>
                     </h2>
+                    <!-- REMEMBER TO CHANGE THE SVG URL FOR LIVE -->
                     <?php  
-                        echo '<a class="provider-website-link" href="' . esc_url($providerWebsiteLink) . '">' . '<img class="link-icon" src="https://staging-iotforall.kinsta.cloud/wp-content/uploads/2019/06/link.svg">' . $providerName . '.com' . '</a>';
+                        echo '<a class="provider-website-link" href="' . esc_url($providerWebsiteLink) . '" target="_blank">' . '<img class="link-icon" src="https://staging-iotforall.kinsta.cloud/wp-content/uploads/2019/06/link.svg">' . $providerName . '.com' . '</a>';
                     ?>
                     <div class="provider-social-container">
                         <?php
@@ -322,7 +326,7 @@ p {
                     </div>
                     <div class="about-provider">
                         <div class="provider-featured-banner">
-                            <a href="<?php echo esc_url($providerWebsiteLink)?>">
+                            <a href="<?php echo esc_url($providerWebsiteLink)?>" target="_blank">
                                 <?php echo $td_mod_single->get_image(td_global::$load_featured_img_from_template); ?>
                             </a>
                         </div>
@@ -338,23 +342,18 @@ p {
         <div class="td-pb-span12 td-main-content">
 
         </div>
-        <!-- END TOP SECTION || BELOW IS THE MAIN POST BODY -->
         <div class="td-container td-post-template-default <?php echo $td_sidebar_position; ?>">
             <div class="td-crumb-container"><?php echo td_page_generator::get_single_breadcrumbs($td_mod_single->title); ?></div>
                 <div class="td-pb-row">
                     <div class="td-pb-span8 td-main-content" role="main">
                         <div class="td-ss-main-content">
                             <article id="post-<?php echo $td_mod_single->post->ID;?>" class="<?php echo join(' ', get_post_class());?>" <?php echo $td_mod_single->get_item_scope();?>>
-                                <?php echo $td_mod_single->get_social_sharing_top();?>
                                 <footer>
-                                    <?php echo $td_mod_single->get_post_pagination();?>
                                     <div class="td-post-source-tags">
-                                        <?php echo $td_mod_single->get_source_and_via();?>
                                         <?php echo $td_mod_single->get_the_tags();?>
                                     </div>
                                 </footer>
                             </article> 
-                            <!-- END provider MAIN POST TEMPLATE -->
 <?php
     } else {
         // this else is for when there's no provider post to render. See the if() above of which this block is the else.
