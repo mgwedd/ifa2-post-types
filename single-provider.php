@@ -24,6 +24,8 @@
     $promoted_id = get_term_by('slug', 'promoted', 'category');
     $related_promoted_posts = $td_mod_single->related_promoted_posts();
 ?>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <!-- Styles are placed here a) to limit the scope of these modifications to this template, not all posts, since there are mods to theme-level elements, 
 and b) to decouple the template as much as possible from the theme. There is some cost to load speed but nothing major.
 Some tyles are declared inline to wrestle control from the theme.-->
@@ -38,7 +40,8 @@ p {
 .td-category, 
 .td-social-sidebar, 
 .td-crumb-container, 
-.swp_social_panel {
+.swp_social_panel, 
+.hide-default-our-solutions-block {
   display: none !important;
 }
 .provider-practices-container {
@@ -55,6 +58,7 @@ p {
     cursor: pointer; 
     margin-right: 8px;
     padding: 2px 15px;
+    transition: all 250ms ease;
 }
 .provider-practices:hover {
     background-color: #fff;
@@ -201,20 +205,18 @@ p {
     font-size: 16px !important;
     line-height: 24px !important;
 }
-.provider-featured-banner {
+.provider-featured-banner img {
     border-radius: 4px;
 }
-/* .td-post-featured-image, 
-} */
 .provider-featured-banner:hover {
     transition: all 300ms ease;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
     cursor: pointer; 
     transform: scale(1.01);
 }
-.about-provider {
+/* .about-provider {
 
-}
+} */
 .provider-heading-2 {
     margin-top: 0px;
     margin-bottom: 24px;
@@ -226,29 +228,50 @@ p {
 }
   
 /* OUR SOLUTIONS CUSTOM SIDEBAR */
+/* Note this sidebar is manipulated with jQuery (provider_scripts.js) */
 .our-solutions-container {
     width: 240px;
-    height: 300px;;
-    padding-right: 16px;
-    padding-bottom: 24px;
-    padding-left: 16px;
+    height: 400px;;
     padding: 24px 40px 32px;
     border-radius: 4px;
     background-color: #fff;
     box-shadow: 1px 1px 3px 0 rgba(0, 0, 0, 0.2);
+    overflow: hidden;
 }
-.our-solutions-container .td-module-meta-info, 
-.our-solutions-container .entry-thumb {
-    display: none !important;
+.our-solutions-holder {
+    max-height: 85%;   
+}
+.our-solutions-holder a {
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 0px;
+    color: #333;
+}
+.solutions-link-ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    max-height: 100%;
+    margin-block-start: 0;
+    margin-block-end: 0;
+    overflow: ellipses;
+}
+.solutions-link-li::before {
+  content: "\2022";  /* Add content: \2022 is the CSS Code/unicode for a bullet */
+  color: #22af96; /* Change the color */
+  font-weight: bold; 
+  display: inline-block; /* Needed to add space between the bullet and the text */ 
+  width: 1em; /* Also needed for space (tweak if needed) */
+  margin-left: -1em; /* Also needed for space (tweak if needed) */
+}
+.solutions-link-li {
+    padding-top: 5px;
+}
+.solutions-link-li a:hover {
+    color: #22af96;
 }
 
-.our-solutions-container .td_module_7 .item-details {
-    margin-right: 0 !important;
-    min-height: 0px;
-}
-.our-solutions-container .td_module_7 {
-    padding-bottom: 10px !important;
-}
 </style>
 <?php
     if (have_posts()) {
@@ -260,8 +283,9 @@ p {
         $providerID = get_the_author_meta('ID', $part_cur_auth_obj->ID);
         $providerName = get_the_author_meta('display_name', $providerID);
         $providerCategoriesArr = get_the_terms($post->ID, 'category' );
+        // cats are limited to 3 for styling reasons. You could change the styling and set a higher limit. Just change the array slice. 
+        $providerCatLimit3 = array_slice($providerCategoriesArr, 0, 3);
         $providerWebsiteLink = get_the_author_meta('user_url', $providerID);
-        // echo $td_mod_single->get_social_sharing_side(); // potentially cut this out
 ?>
         <!-- BEGIN TOP SECTION (ABOVE BODY) -->
         <section class="td-main-content-wrap">
@@ -275,12 +299,9 @@ p {
                                     echo get_avatar($providerID);
                                 ?>
                             </div> 
-
                         </div>
                         <div class="provider-practices-container">
                             <?php 
-                                // cats are limited to 3 for styling reasons. You could change the styling and set a higher limit. Just change the array slice. 
-                                $providerCatLimit3 = array_slice($providerCategoriesArr, 0, 3);
                                 foreach ( $providerCatLimit3 as $cat ) { ?>
                                     <a class="provider-practices" href="<?php echo get_term_link($cat->slug, 'category'); ?>" target="_blank">
                                         <?php echo $cat->name; ?>
@@ -307,7 +328,7 @@ p {
                     </h2>
                     <!-- REMEMBER TO CHANGE THE SVG URL FOR LIVE -->
                     <?php  
-                        echo '<a class="provider-website-link" href="' . esc_url($providerWebsiteLink) . '" target="_blank">' . '<img class="link-icon" src="https://staging-iotforall.kinsta.cloud/wp-content/uploads/2019/06/link.svg">' . $providerName . '.com' . '</a>';
+                        echo '<a class="provider-website-link" href="' . esc_url($providerWebsiteLink) . '" target="_blank"><i class="fas fa-link" style="font-family: FontAWesome; padding-right: 5px;"></i> Website</a>';
                     ?>
                     <div class="provider-social-container">
                         <?php
@@ -334,15 +355,20 @@ p {
                     </div>
                 </div>
                 <div class="our-solutions-container">
-                    <h2 class="provider-heading-2">Our Solutions<h2>
-                    <?php echo $td_block_8->render(array('limit' => 4, 'category_ids' => -21898, -1 * $promoted_id->term_id));?>
+                    <h2 class="provider-heading-2">Our Solutions</h2>
+                    <div id="js-our-solutions">
+                        <div class="hide-default-our-solutions-block">
+                            <?php echo $td_block_8->render(array('limit' => 4, 'category_ids' => -21898, -1 * $promoted_id->term_id));?>
+                        </div>
+                    </div>
                 </div>
+                
             </div>
         </main>
         <div class="td-pb-span12 td-main-content">
 
         </div>
-        <div class="td-container td-post-template-default <?php echo $td_sidebar_position; ?>">
+        <div class="td-container td-post-template-default">
             <div class="td-crumb-container"><?php echo td_page_generator::get_single_breadcrumbs($td_mod_single->title); ?></div>
                 <div class="td-pb-row">
                     <div class="td-pb-span8 td-main-content" role="main">
@@ -365,17 +391,18 @@ p {
                 </div>
 
             <!-- the div immediately below renders the "more providers" filter block, but it slides up on the right currently. -->
-            <div class="wpb_wrapper td-block-title-wrap td_block_14 td_block_inner" style="margin-top: 50px;">
+
+            <div class="wpb_wrapper td-block-title-wrap td_block_14 td_block_inner fix-solutions-filter-padding">
                 <!-- This is a custom title "More providers" for the filter/block immediately below. -->
                 <!-- The crazy inline bordering with the spans is to replicate Zaz's two-tone bottom border for the filter section titles -->
                 <h4 class="td-block-title">
-                    <span class="td-pulldown-size more-providers-block" style="font-weight: 550; display: flex;">
+                    <span class="td-pulldown-size" style="font-weight: 550; display: flex;">
                         <span style="border-bottom: 2px solid #2ec9b9;">Solu</span>
                         <span style="border-bottom: 2px solid #F5F5F5; width: 100%;">tions</span>
                     </span>
                 </h4>
                 <!-- The td-column-3 div below renders the row of related providers immediately below the body of the post/provider  -->
-                <div class="td-column-3 td-pb-span4 width100p">
+                <div class="td-column-3 td-pb-span4 width100p ">
                     <?php echo $td_block_14->render(array('limit' => 3,'category_ids' => 45));?>
                 </div>
             </div>
@@ -393,9 +420,28 @@ p {
                 <div class="wpb_column vc_column_container td-pb-span4">
                     <?php echo $td_block_8->render(array('limit' => 4, 'category_ids' => -21898, -1 * $promoted_id->term_id));?>
                 </div>
+                <h4 class="td-block-title">
+                    <span class="td-pulldown-size trending-block-title" style="font-weight: 550; display: flex; padding-left: 22px;">
+                        <span style="border-bottom: 2px solid #2ec9b9;">Ne</span>
+                        <span style="border-bottom: 2px solid #F5F5F5; width: 100%; margin-right: 22px;">ws</span>
+                    </span>
+                </h4>
+                <div class="wpb_column vc_column_container td-pb-span4">
+                    <?php echo $td_block_8->render(array('limit' => 4, 'category_ids' => -21898, -1 * $promoted_id->term_id));?>
+                </div>
+                <h4 class="td-block-title">
+                    <span class="td-pulldown-size trending-block-title" style="font-weight: 550; display: flex; padding-left: 22px;">
+                        <span style="border-bottom: 2px solid #2ec9b9;">Popu</span>
+                        <span style="border-bottom: 2px solid #F5F5F5; width: 100%; margin-right: 22px;">lar</span>
+                    </span>
+                </h4>
+                <div class="wpb_column vc_column_container td-pb-span4">
+                    <?php echo $td_block_8->render(array('limit' => 4, 'category_ids' => -21898, -1 * $promoted_id->term_id));?>
+                </div>
             </div>
         </div> <!-- /.td-container -->
     </div> <!-- /.td-main-content-wrap -->
 <?php
     get_footer();
+    wp_enqueue_script('provider-scripts'); // this script extracts data from the "our solutions" filter block among other things.
 ?>
