@@ -6,10 +6,11 @@
  * Otherwise, you have to find all the theme's styles and its way of nesting data in blocks. 
  */
 
-var solutionsLinks = jQuery( '#js-our-solutions' ).find( 'a' );
+ // get all post links that are a child of the title.
+var solutionsLinks = jQuery( '#js-our-solutions' ).find( 'h3.entry-title' ).children();
 
 // get rid of whatever the theme sent us now.
-jQuery( '#js-our-solutions' ).replaceWith( `<div class="our-solutions-holder" id="js-solutions-holder"><ul id="js-our-solutions-ul" class="solutions-link-ul"></ul></div>` )
+jQuery( '#js-our-solutions' ).replaceWith( '<div class="our-solutions-holder" id="js-solutions-holder"><ul id="js-our-solutions-ul" class="solutions-link-ul"></ul></div>' )
 
 // append each link to the new container div.
 solutionsLinks.each( ( index ) => {

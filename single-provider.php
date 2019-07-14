@@ -23,6 +23,7 @@
     // for trending article filter.
     $promoted_id = get_term_by('slug', 'promoted', 'category');
     $related_promoted_posts = $td_mod_single->related_promoted_posts();
+
 ?>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -286,6 +287,16 @@ p {
         // cats are limited to 3 for styling reasons. You could change the styling and set a higher limit. Just change the array slice. 
         $providerCatLimit3 = array_slice($providerCategoriesArr, 0, 3);
         $providerWebsiteLink = get_the_author_meta('user_url', $providerID);
+
+        $solutions_query_params = array(
+        'author'        =>  $providerID, 
+        'orderby'       =>  'post_date',
+        'order'         =>  'ASC',
+        'posts_per_page' => -1 // no limit
+        );
+
+        $solutions = get_posts( $solutions_query_params );
+
 ?>
         <!-- BEGIN TOP SECTION (ABOVE BODY) -->
         <section class="td-main-content-wrap">
@@ -358,16 +369,12 @@ p {
                     <h2 class="provider-heading-2">Our Solutions</h2>
                     <div id="js-our-solutions">
                         <div class="hide-default-our-solutions-block">
-                            <?php echo $td_block_8->render(array('limit' => 4, 'category_ids' => -21898, -1 * $promoted_id->term_id));?>
+                            <?php echo $td_block_8->render(array('limit' => 4, 'autors_id' => $providerID));?>
                         </div>
                     </div>
                 </div>
-                
             </div>
         </main>
-        <div class="td-pb-span12 td-main-content">
-
-        </div>
         <div class="td-container td-post-template-default">
             <div class="td-crumb-container"><?php echo td_page_generator::get_single_breadcrumbs($td_mod_single->title); ?></div>
                 <div class="td-pb-row">
@@ -391,9 +398,8 @@ p {
                 </div>
 
             <!-- the div immediately below renders the "more providers" filter block, but it slides up on the right currently. -->
-
             <div class="wpb_wrapper td-block-title-wrap td_block_14 td_block_inner fix-solutions-filter-padding">
-                <!-- This is a custom title "More providers" for the filter/block immediately below. -->
+                <!-- This is a custom title "Solutions" for the filter/block immediately below. -->
                 <!-- The crazy inline bordering with the spans is to replicate Zaz's two-tone bottom border for the filter section titles -->
                 <h4 class="td-block-title">
                     <span class="td-pulldown-size" style="font-weight: 550; display: flex;">
@@ -403,12 +409,12 @@ p {
                 </h4>
                 <!-- The td-column-3 div below renders the row of related providers immediately below the body of the post/provider  -->
                 <div class="td-column-3 td-pb-span4 width100p ">
-                    <?php echo $td_block_14->render(array('limit' => 3,'category_ids' => 45));?>
+                    <?php echo $td_block_14->render(array('limit' => 3, 'autors_id' => $providerID));?>
                 </div>
             </div>
             <div class="vc_row wpb_row td-pb-row td-sidebar-guide">
                 <div class="wpb_column vc_column_container td-pb-span8">
-                    <?php echo $td_block_11->render(array('ajax_pagination' => 'load_more', 'offset' => 3, 'category_ids' => 45));?>
+                    <?php echo $td_block_11->render(array('ajax_pagination' => 'load_more', 'offset' => 3, 'autors_id' => $providerID));?>
                 </div>
                 <!-- This is a custom title "Trending" for the filter/block immediately below. -->
                 <h4 class="td-block-title">
@@ -418,7 +424,7 @@ p {
                     </span>
                 </h4>
                 <div class="wpb_column vc_column_container td-pb-span4">
-                    <?php echo $td_block_8->render(array('limit' => 4, 'category_ids' => -21898, -1 * $promoted_id->term_id));?>
+                    <?php echo $td_block_8->render(array('limit' => 4, 'autors_id' => $providerID));?>
                 </div>
                 <h4 class="td-block-title">
                     <span class="td-pulldown-size trending-block-title" style="font-weight: 550; display: flex; padding-left: 22px;">
@@ -427,7 +433,7 @@ p {
                     </span>
                 </h4>
                 <div class="wpb_column vc_column_container td-pb-span4">
-                    <?php echo $td_block_8->render(array('limit' => 4, 'category_ids' => -21898, -1 * $promoted_id->term_id));?>
+                    <?php echo $td_block_8->render(array('limit' => 4, 'autors_id' => $providerID));?>
                 </div>
                 <h4 class="td-block-title">
                     <span class="td-pulldown-size trending-block-title" style="font-weight: 550; display: flex; padding-left: 22px;">
@@ -436,7 +442,7 @@ p {
                     </span>
                 </h4>
                 <div class="wpb_column vc_column_container td-pb-span4">
-                    <?php echo $td_block_8->render(array('limit' => 4, 'category_ids' => -21898, -1 * $promoted_id->term_id));?>
+                    <?php echo $td_block_8->render(array('limit' => 4, 'autors_id' => $providerID, 'category_ids' => 790));?>
                 </div>
             </div>
         </div> <!-- /.td-container -->
