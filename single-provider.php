@@ -42,7 +42,8 @@ p {
 .td-social-sidebar, 
 .td-crumb-container, 
 .swp_social_panel, 
-.hide-default-our-solutions-block {
+.hide-default-our-solutions-block, 
+.td-pulldown-category {
   display: none !important;
 }
 .provider-practices-container {
@@ -369,7 +370,8 @@ p {
                     <h2 class="provider-heading-2">Our Solutions</h2>
                     <div id="js-our-solutions">
                         <div class="hide-default-our-solutions-block">
-                            <?php echo $td_block_8->render(array('limit' => 4, 'autors_id' => $providerID));?>
+                        <!-- this filter block uses the "provider_solutions_filter" category (id: 29348) to get the subset of the author's posts that are classified as solutions. -->
+                            <?php echo $td_block_8->render(array('limit' => 4, 'autors_id' => $providerID, 'category_id' => 29348));?>
                         </div>
                     </div>
                 </div>
@@ -409,7 +411,8 @@ p {
                 </h4>
                 <!-- The td-column-3 div below renders the row of related providers immediately below the body of the post/provider  -->
                 <div class="td-column-3 td-pb-span4 width100p ">
-                    <?php echo $td_block_14->render(array('limit' => 3, 'autors_id' => $providerID));?>
+                    <!-- this filter block uses the "provider_solutions_filter" category (id: 29348) to get the subset of the author's posts that are classified as solutions. -->
+                    <?php echo $td_block_14->render(array('limit' => 3, 'autors_id' => $providerID, 'category_id' => 29348));?>
                 </div>
             </div>
             <div class="vc_row wpb_row td-pb-row td-sidebar-guide">
@@ -424,7 +427,8 @@ p {
                     </span>
                 </h4>
                 <div class="wpb_column vc_column_container td-pb-span4">
-                    <?php echo $td_block_8->render(array('limit' => 4, 'autors_id' => $providerID));?>
+                    <!-- this filter block uses the "provider_interviews_filter" category (id: 29350) to get the subset of the author's posts that are classified as interviews. -->
+                    <?php echo $td_block_8->render(array('limit' => 4, 'autors_id' => $providerID, 'category_id' => 29350));?>
                 </div>
                 <h4 class="td-block-title">
                     <span class="td-pulldown-size trending-block-title" style="font-weight: 550; display: flex; padding-left: 22px;">
@@ -433,7 +437,8 @@ p {
                     </span>
                 </h4>
                 <div class="wpb_column vc_column_container td-pb-span4">
-                    <?php echo $td_block_8->render(array('limit' => 4, 'autors_id' => $providerID));?>
+                    <!-- this filter block uses the "provider_news_filter" category (id: 29349) to get the subset of the author's posts that are classified as news. -->
+                    <?php echo $td_block_8->render(array('limit' => 4, 'autors_id' => $providerID, 'category_id' => 29349));?>
                 </div>
                 <h4 class="td-block-title">
                     <span class="td-pulldown-size trending-block-title" style="font-weight: 550; display: flex; padding-left: 22px;">
