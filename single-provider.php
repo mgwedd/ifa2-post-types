@@ -221,7 +221,7 @@ p {
 } */
 .provider-heading-2 {
     margin-top: 0px;
-    margin-bottom: 24px;
+    margin-bottom: 10px;
     font-family: 'Open Sans', sans-serif;
     font-size: 16px;
     line-height: 24px;
@@ -233,8 +233,8 @@ p {
 /* Note this sidebar is manipulated with jQuery (provider_scripts.js) */
 .our-solutions-container {
     width: 240px;
-    height: 400px;;
-    padding: 24px 40px 32px;
+    height: 300px;;
+    padding: 24px;
     border-radius: 4px;
     background-color: #fff;
     box-shadow: 1px 1px 3px 0 rgba(0, 0, 0, 0.2);
