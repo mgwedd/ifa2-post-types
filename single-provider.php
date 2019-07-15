@@ -289,15 +289,6 @@ p {
         $providerCatLimit3 = array_slice($providerCategoriesArr, 0, 3);
         $providerWebsiteLink = get_the_author_meta('user_url', $providerID);
 
-        $solutions_query_params = array(
-        'author'        =>  $providerID, 
-        'orderby'       =>  'post_date',
-        'order'         =>  'ASC',
-        'posts_per_page' => -1 // no limit
-        );
-
-        $solutions = get_posts( $solutions_query_params );
-
 ?>
         <!-- BEGIN TOP SECTION (ABOVE BODY) -->
         <section class="td-main-content-wrap">
