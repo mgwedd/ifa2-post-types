@@ -1,15 +1,14 @@
 <?php
 /**
 * WHAT: IFA PROVIDER CTP Template
-* WHEN: June 2019
-* WHY: Because we need one for IFA 2.
+* WHEN: Summer 2019
+* WHY: Because we need one for IFA 2
 * WHO (author): Michael Wedd
 * NOTES: This post type is registered in the must-use plugin "IFA Custom Post Types," located at: ../mu-plugins/ifa-post-types.php
 * This template (a hack) is completely dependant on the Newspaper theme. 
 * I've made efforts to reduce this templates dependency on other theme files in order to reduce complexity,
 * by pulling the code from previously referenced files into this file.  
 * Updates to the Newspaper theme could break this template. Fun right? TBD!
-* This template uses SVG icons, so you'll need this plugin to run the template: https://wordpress.org/plugins/safe-svg/
 */
     locate_template('includes/wp_booster/td_single_template_vars.php', true);
     get_header();
@@ -181,7 +180,7 @@ p {
     padding-top: 80px;
     padding-bottom: 80px;
     justify-content: center;
-    background-color: #edf0f3;
+    background-color: #fafbfc;
 }
 .provider-main-content-container {
     display: flex;
@@ -195,8 +194,8 @@ p {
     width: 550px;
     height: auto;
     padding: 24px 40px 32px;
-    margin-left: 30px;
-    margin-right: 30px;
+    margin-left: 24px;
+    margin-right: 24px;
     border-radius: 4px;
     background-color: #fff;
     box-shadow: 1px 1px 3px 0 rgba(0, 0, 0, 0.2);
@@ -211,14 +210,11 @@ p {
     border-radius: 4px;
 }
 .provider-featured-banner:hover {
-    transition: all 300ms ease;
+    transition: all 250ms ease;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
     cursor: pointer; 
-    transform: scale(1.01);
+    transform: scale(1.008);
 }
-/* .about-provider {
-
-} */
 .provider-heading-2 {
     margin-top: 0px;
     margin-bottom: 10px;
@@ -233,7 +229,8 @@ p {
 /* Note this sidebar is manipulated with jQuery (provider_scripts.js) */
 .our-solutions-container {
     width: 240px;
-    height: 300px;;
+    /* height: 300px; */
+    display: table;
     padding: 24px;
     border-radius: 4px;
     background-color: #fff;
@@ -243,12 +240,6 @@ p {
 .our-solutions-holder {
     max-height: 85%;   
 }
-.our-solutions-holder a {
-    font-size: 12px;
-    font-weight: 600;
-    line-height: 0px;
-    color: #333;
-}
 .solutions-link-ul {
     list-style: none;
     display: flex;
@@ -257,23 +248,71 @@ p {
     max-height: 100%;
     margin-block-start: 0;
     margin-block-end: 0;
-    overflow: ellipses;
 }
-.solutions-link-li::before {
-  content: "\2022";  /* Add content: \2022 is the CSS Code/unicode for a bullet */
-  color: #22af96; /* Change the color */
-  font-weight: bold; 
-  display: inline-block; /* Needed to add space between the bullet and the text */ 
-  width: 1em; /* Also needed for space (tweak if needed) */
-  margin-left: -1em; /* Also needed for space (tweak if needed) */
+.solutions-link {
+    margin-top: 12px;
+    margin-left: 0px;
+    max-height: 70px;
+    display: table-row;
+    padding: 16px;
+    border: solid 2px #f2f2f2;
+    border-radius: 4px;
+    font-size: 12px;
+    line-height: 150%;
+    font-weight: 600;
+    color: #333;
+    transition: all 250ms ease;
 }
-.solutions-link-li {
-    padding-top: 5px;
+.solutions-link:hover {
+    background-color: #22af96;
+    background: rgba(34, 175, 150, 0.03);
+    border-color: rgba(34, 175, 150, 0.15);
+    cursor: pointer;
+    color: #22af96;
 }
-.solutions-link-li a:hover {
+.solutions-link a:hover {
     color: #22af96;
 }
 
+/* RESPONSIVENESS (Tablet, Mobile) */
+@media only screen and (max-width: 1145px) {
+  .solutions-filter{
+      display: none;
+  }
+  
+}
+@media only screen and (max-width: 1025px) {
+  .provider-main-content-container {
+    align-items: center;
+    flex-direction: column;
+  }
+  .provider-body-container, .our-solutions-container {
+      margin: 20px;
+      width: 90%;
+  }
+  .solutions-link {
+      text-align: center;
+      width: 50%;
+  }
+  .provider-heading-2 {
+      text-align: center;
+  }
+  .provider-main-area {
+    padding-bottom: 20px;
+    padding-top: 20px;
+  }
+  .see-solutions-button, .provider-info-box, .solutions-filter {
+      display: none;
+  }
+  .top-bar-content-container {
+    justify-content: center;
+  }
+  .solutions-link-ul {
+      align-items: center;
+      
+  }
+  
+}
 </style>
 <?php
     if (have_posts()) {
@@ -305,7 +344,7 @@ p {
                         </div>
                         <div class="provider-practices-container">
                             <?php 
-                                foreach ( $providerCatLimit3 as $cat ) { ?>
+                                foreach ($providerCatLimit3 as $cat) { ?>
                                     <a class="provider-practices" href="<?php echo get_term_link($cat->slug, 'category'); ?>" target="_blank">
                                         <?php echo $cat->name; ?>
                                     </a>
@@ -323,13 +362,12 @@ p {
         <!-- This is the provider main content area div, containing everything above the filter block section -->
         <main class="provider-main-area">
             <div class="provider-main-content-container">
-                <section class="provider-info-box">
+                <div class="provider-info-box">
                     <h2 class="provider-name-info-box">
                         <?php 
                             echo $providerName;
                         ?>
                     </h2>
-                    <!-- REMEMBER TO CHANGE THE SVG URL FOR LIVE -->
                     <?php  
                         echo '<a class="provider-website-link" href="' . esc_url($providerWebsiteLink) . '" target="_blank"><i class="fas fa-link" style="font-family: FontAWesome; padding-right: 5px;"></i> Website</a>';
                     ?>
@@ -343,7 +381,7 @@ p {
                             }
                         ?>
                     </div>
-                </section>
+                </div>
                 <div class="provider-body-container">
                     <div class="provider-name-body">
                         <h2 class="provider-heading-2">About <?php echo $providerName; ?></h2>
@@ -391,7 +429,7 @@ p {
                 </div>
 
             <!-- the div immediately below renders the "more providers" filter block, but it slides up on the right currently. -->
-            <div class="wpb_wrapper td-block-title-wrap td_block_14 td_block_inner fix-solutions-filter-padding">
+            <div class="wpb_wrapper td-block-title-wrap td_block_14 td_block_inner width100p solutions-filter">
                 <!-- This is a custom title "Solutions" for the filter/block immediately below. -->
                 <!-- The crazy inline bordering with the spans is to replicate Zaz's two-tone bottom border for the filter section titles -->
                 <h4 class="td-block-title">
@@ -408,6 +446,12 @@ p {
             </div>
             <div class="vc_row wpb_row td-pb-row td-sidebar-guide">
                 <div class="wpb_column vc_column_container td-pb-span8">
+                    <h4 class="td-block-title">
+                        <span class="td-pulldown-size" style="font-weight: 550; display: flex;">
+                            <span style="border-bottom: 2px solid #2ec9b9;">Trend</span>
+                            <span style="border-bottom: 2px solid #F5F5F5; width: 100%;">ing Insights</span>
+                        </span>
+                    </h4>
                     <?php echo $td_block_11->render(array('ajax_pagination' => 'load_more', 'offset' => 3, 'autors_id' => $providerID));?>
                 </div>
                 <!-- This is a custom title "Trending" for the filter/block immediately below. -->
