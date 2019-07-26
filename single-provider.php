@@ -309,9 +309,10 @@ p {
   }
   .solutions-link-ul {
       align-items: center;
-      
   }
-  
+  .trending-block-title {
+    padding-left: 0px !important;
+  }  
 }
 </style>
 <?php
