@@ -13,16 +13,14 @@
 
 function ifa_post_types() {
 /**
- *  Each register_post_type(...args) function call within this larger ifa_post_types() function 
+ * Each register_post_type(...args) function call within this larger ifa_post_types() function 
  * registers a new post type and sets up its basic parameters. You can change the fields in the associative array(s)
- * that are passed into the registration function to further customize the post type. But he warned that doing so could 
+ * that are passed into the registration function to further customize the post type. But be warned that doing so could 
  * cause strange behavior. Consult this: https://codex.wordpress.org/Function_Reference/register_post_type
  * ~ Michael Wedd, May 30th 2019.
  */
 
     /** ============= PODCAST ============= 
-     * replace archive with just a filtered page instead...?
-     * categories not display on front end yet.
     */
     $podcast_labels = array(
         'name' => 'Podcast',
@@ -39,7 +37,7 @@ function ifa_post_types() {
     );
 
     register_post_type('podcast', array(
-        'supports' => array('title', 'editor', 'thumbnail', 'revisions'),
+        'supports' => array('title', 'author', 'editor', 'thumbnail', 'revisions'),
         'rewrite' => array(
             'slug' => 'podcast'
         ),
@@ -71,7 +69,7 @@ function ifa_post_types() {
     register_post_type('provider', array(
         'supports' => array('title', 'author', 'editor', 'thumbnail', 'revisions'),
         'rewrite' => array(
-            'slug' => 'providers'
+            'slug' => 'provider'
         ),
         'public' => true, 
         'show_in_menu' => true,
@@ -137,5 +135,9 @@ function ifa_post_types() {
 }
 
 add_action('init', 'ifa_post_types');
-
+add_action('init', 'add_category_tags_to_providers');
+ function add_category_tags_to_cpt() {
+    register_taxonomy_for_object_type('category', 'provider');
+    register_taxonomy_for_object_type('post_tag', 'provider');
+}
 ?>
